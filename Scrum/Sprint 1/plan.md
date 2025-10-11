@@ -46,3 +46,11 @@ End: 2025‑10‑05
 ## Risks / Assumptions
 - Risk: Inconsistent LocalStorage schema → **Mitigation:** define a single `expenses` array shape up front.
 - Risk: Time underestimated for UI polish → **Mitigation:** keep styles minimal this sprint.
+
+## Daily Scrum
+
+Day 1:
+Matheus:
+What I did yesterday: -
+What I will do today: Start HTML and CSS for the Expense Tracker
+Do I had any blockers: No
