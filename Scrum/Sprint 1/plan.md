@@ -20,29 +20,24 @@ End: 2025‑10‑05
 | 3 | As a user, I want to see a list of expenses. | High | 2 | Renders latest first; basic responsive layout. |
 
 ## Task Breakdown
-| Story ID | Task  Owner | Estimate | Status 
+| Story ID | Task Name | Task  Owner | Estimate | Status |
 |---|---|---|---|---|
-
-| 1 | Build expense form (HTML/CSS)   
-| Matheus            | 4 days | in-progress |  
-
-| 1 | Hook form submit → JS handler    
-| shintaroo          | 4 days | in-progress |
-
-| 1 | Save expense to LocalStorage   
-| Shintaroo           | 4 days | in-progress |
-
-| 3 | Render list from LocalStorage   
-| Nelson             | 4 days | in-progress |
-| 2 
-
-| Implement delete action (UI + JS)   
-| Nelson         | 4 days | to-do   
-
-| 3 | Basic responsive styling (mobile first)   
-| Matheus  | 4 days | To‑Do |
+| 1 | Build expense form (HTML/CSS)             | Matheus           | 4 days | in-progress |
+| 1 | Hook form submit → JS handler             | shintaro          | 4 days | in-progress |
+| 1 | Save expense to LocalStorage              | Shintaro          | 4 days | in-progress |
+| 3 | Render list from LocalStorage             | Nelson            | 4 days | in-progress |
+| 2 | Implement delete action (UI + JS)         | Nelson            | 4 days | to-do |
+| 3 | Basic responsive styling (mobile first)   | Matheus           | 4 days | To‑Do |
 
 
 ## Risks / Assumptions
 - Risk: Inconsistent LocalStorage schema → **Mitigation:** define a single `expenses` array shape up front.
 - Risk: Time underestimated for UI polish → **Mitigation:** keep styles minimal this sprint.
+
+## Daily Scrum
+
+Day 1:
+Matheus:
+What I did yesterday: -
+What I will do today: Start HTML and CSS for the Expense Tracker
+Do I had any blockers: No

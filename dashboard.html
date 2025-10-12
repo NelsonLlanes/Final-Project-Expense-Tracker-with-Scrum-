@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="main.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Dashboard</title>
+</head>
+
+<body id="body-dashboard">
+
+    <header>
+        <div class="p-4 bg-gray-100">
+            <div id="toggle-group"
+                class="inline-flex p- bg-gray-300 rounded-full shadow-inner w-full sm:w-auto cursor-pointer">
+
+                <button data-target="allTransactions"
+                    class="toggle-button flex-1 px-2 py-2 text-sm font-medium whitespace-nowrap active-button">
+                    All Transactions
+                </button>
+
+                <button data-target="received"
+                    class="toggle-button flex-1 px-2 py-2 text-sm font-medium whitespace-nowrap">
+                    Received
+                </button>
+
+                <button data-target="spent"
+                    class="toggle-button flex-1 px-2 py-2 text-sm font-medium whitespace-nowrap">
+                    Spent
+                </button>
+
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="timeline">
+            <ul>
+                <!-- There are some examples of how its supposed to work on the end -->
+                <li class="transaction-item transfer">
+                    <div class="content">
+                        <span class="category">E-Transfer</span>
+                        <span class="details">Nelson</span>
+                        <span class="amount received">$500</span>
+                    </div>
+                    <span class="day">Thursday</span>
+                </li>
+
+                <li class="transaction-item supermarket">
+                    <div class="content">
+                        <span class="category">Supermarket</span>
+                        <span class="details">Costco</span>
+                        <span class="amount">$125,34</span>
+                    </div>
+                    <span class="day">Thursday</span>
+                </li>
+
+                <li class="transaction-item transport">
+                    <div class="content">
+                        <span class="category">Transport</span>
+                        <span class="details">Skytrain</span>
+                        <span class="amount">$4</span>
+                    </div>
+                    <span class="day">Wednesday</span>
+                </li>
+
+                <li class="transaction-item transport">
+                    <div class="content">
+                        <span class="category">Transport</span>
+                        <span class="details">Bus</span>
+                        <span class="amount">$3</span>
+                    </div>
+                    <span class="day">Tuesday</span>
+                </li>
+
+                <li class="transaction-item restaurant">
+                    <div class="content">
+                        <span class="category">Food</span>
+                        <span class="details">Cactus Club Cafe</span>
+                        <span class="amount">$28,50</span>
+                    </div>
+                    <span class="day">Tuesday</span>
+                </li>
+
+            </ul>
+        </div>
+    </main>
+
+</body>
+
+</html>
