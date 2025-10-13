@@ -51,6 +51,17 @@
     color: var(--color-primary);
 }
 
+.delete-menu {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.delete-menu > * {
+    background-color: #d1d5db;
+    border-radius: 25px;
+}
+
 /* Main Content */
 
 .account-card {
@@ -230,8 +241,8 @@
     margin-top: 2px;
 }
 
-.received{
-    color: green    ;
+.received {
+    color: green;
 }
 
 .day {
@@ -242,14 +253,14 @@
     white-space: nowrap;
 }
 
-@media (min-width: 768px){
-    .timeline{
+@media (min-width: 768px) {
+    .timeline {
         max-width: 800px;
     }
 }
 
-@media (min-width: 1024px){
-    .timeline{
+@media (min-width: 1024px) {
+    .timeline {
         max-width: 1440px;
     }
 }
