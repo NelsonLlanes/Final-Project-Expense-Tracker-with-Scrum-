@@ -16,43 +16,43 @@
 
 ---
 
-## 📅 Day 2
+## 📅 Day 2 - 09/10/2025
 
 | Team Member | Yesterday | Today | Blockers |
 |-------------|-----------|-------|----------|
-| **Nelson** | ___ | ___ | None |
-| **Matheus** | ___ | ___ | None |
-| **Shintaro** | ___ | ___ | None |
+| **Nelson** | Start render list local storage | Organizing task details | None |
+| **Matheus** | Start HTML and CSS code | Make Home page | None |
+| **Shintaro** | Working expense local storage | Working expense local storage | None |
 
 ---
 
-## 📅 Day 3
+## 📅 Day 3 - 10/10/2025
 
 | Team Member | Yesterday | Today | Blockers |
 |-------------|-----------|-------|----------|
-| **Nelson** | ___ | ___ | None |
-| **Matheus** | ___ | ___ | None |
-| **Shintaro** | ___ | ___ | None |
+| **Nelson** | Organizing task details | Research on implementation methods | None |
+| **Matheus** | Make Home page | Make Dashboard page | None |
+| **Shintaro** | Working expense local storage | Working hook form submit → JS handler | None |
 
 ---
 
-## 📅 Day 4
+## 📅 Day 4 - 11/10/2025
 
 | Team Member | Yesterday | Today | Blockers |
 |-------------|-----------|-------|----------|
-| **Nelson** | ___ | ___ | None |
-| **Matheus** | ___ | ___ | None |
-| **Shintaro** | ___ | ___ | None |
+| **Nelson** | Research on implementation methods | Check other member codes | None |
+| **Matheus** | Make Dashboard page | Make Dashboard page | None |
+| **Shintaro** | Working hook form submit → JS handler | Working hook form submit → JS handler | None |
 
 ---
 
-## 📅 Day 5
+## 📅 Day 5 - 12/10/2025
 
 | Team Member | Yesterday | Today | Blockers |
 |-------------|-----------|-------|----------|
-| **Nelson** | ___ | ___ | ___ |
-| **Matheus** | ___ | ___ | ___ |
-| **Shintaro** | ___ | ___ | ___ |
+| **Nelson** | Check other member codes | Working render list local storage  | None |
+| **Matheus** | Make Dashboard page | Add JS logic | None |
+| **Shintaro** | Working hook form submit → JS handler | Checking member's code | None |
 
 ---
 
