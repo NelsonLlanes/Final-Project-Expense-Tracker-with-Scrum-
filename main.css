@@ -1,0 +1,266 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+:root {
+    --color-primary: #6B5B95;
+    --color-secondary: #8499B1;
+    --color-background-light: #F4F7F9;
+    --color-text-dark: #333333;
+    --color-text-light: #ffffff;
+    --color-balance: #4CAF50;
+}
+
+/* Home Page */
+
+.home-body {
+    background-color: var(--color-background-light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.home-container {
+    width: 90%;
+    max-width: 800px;
+    padding: 20px;
+    background-color: var(--color-text-light);
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Header */
+
+.home-header {
+    text-align: left;
+    margin-bottom: 30px;
+}
+
+.h1-home {
+    font-weight: 300;
+    color: var(--color-text-dark);
+    font-size: 1.8rem;
+}
+
+.h1-home span {
+    font-weight: 600;
+    color: var(--color-primary);
+}
+
+.delete-menu {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.delete-menu > * {
+    background-color: #d1d5db;
+    border-radius: 25px;
+}
+
+/* Main Content */
+
+.account-card {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    color: var(--color-text-light);
+    padding: 25px;
+    border-radius: 10px;
+    margin-bottom: 40px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+#account-title {
+    font-size: 1rem;
+    font-weight: 400;
+    margin-bottom: 5px;
+    opacity: 0.8;
+}
+
+#account-number {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+/* Button to Dashboard */
+
+.btn-dashboard {
+    display: block;
+    width: 100%;
+    padding: 15px 20px;
+    background-color: var(--color-primary);
+    color: var(--color-text-light);
+    text-align: center;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.btn-dashboard:hover {
+    background-color: #554a7c;
+}
+
+.btn-dashboard:active {
+    transform: translateY(1px);
+}
+
+/* Footer */
+
+.home-footer {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 0.8rem;
+    color: #999;
+}
+
+/* Dashboard page */
+
+#body-dashboard {
+    font-family: sans-serif;
+    background-color: white;
+    padding: 20px;
+}
+
+/* Timeline */
+.timeline {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 10px 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.timeline ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    position: relative;
+}
+
+/* Vertical Timeline Line */
+.timeline ul::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 20px;
+    width: 2px;
+    height: 100%;
+    background-color: #ddd;
+    z-index: 1;
+}
+
+.transaction-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 10px 10px 60px;
+    position: relative;
+    z-index: 2;
+}
+
+/* The Icons */
+.transaction-item::before {
+    content: '';
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background-color: #fff;
+    border: 2px solid #ddd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    z-index: 3;
+}
+
+.transaction-item.transfer::before {
+    background-color: #9c27b0;
+    border-color: #9c27b0;
+    content: '\2022';
+    font-size: 40px;
+    color: white;
+    line-height: 0;
+    top: 15px;
+    transform: none;
+}
+
+/* Shopping Cart */
+.transaction-item.supermarket::before {
+    content: '\1F6D2';
+    font-size: 16px;
+    border: 2px solid #f0f0f0;
+}
+
+/* Bus */
+.transaction-item.transport::before {
+    content: '\1F68C';
+    font-size: 16px;
+    border: 2px solid #f0f0f0;
+}
+
+/* Fork and Knife */
+.transaction-item.restaurant::before {
+    content: '\1F374';
+    font-size: 16px;
+    border: 2px solid #f0f0f0;
+}
+
+
+
+/* Transaction Content */
+
+.content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.category {
+    font-size: 0.9em;
+    color: #9c27b0;
+    margin-bottom: 2px;
+}
+
+.details {
+    font-size: 1em;
+    font-weight: 500;
+}
+
+.amount {
+    font-size: 1em;
+    color: rgb(255, 0, 0);
+    margin-top: 2px;
+}
+
+.received {
+    color: green;
+}
+
+.day {
+    font-size: 0.8em;
+    color: #aaa;
+    text-align: right;
+    width: 70px;
+    white-space: nowrap;
+}
+
+@media (min-width: 768px) {
+    .timeline {
+        max-width: 800px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .timeline {
+        max-width: 1440px;
+    }
+}

@@ -1,11 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <title>Home Page</title>
 </head>
-<body>
-    
+
+<body class="home-body">
+    <div class="home-container">
+
+        <header class="home-header">
+            <h1 class="h1-home">Hello, <span id="name">example</span>👋</h1>
+        </header>
+
+        <main id="main-home">
+            <section class="account-card">
+                <h2 id="account-title">Account balance</h2>
+                <p id="account-number">CAD$<span>5.000</span></p>
+            </section>
+
+            <a href="dashboard.html" class="btn-dashboard">
+                Transaccions 📊
+            </a>
+
+        </main>
+
+        <footer class="home-footer">
+            <p>&copy; 2025 Expense Tracker</p>
+        </footer>
+    </div>
 </body>
+
 </html>
