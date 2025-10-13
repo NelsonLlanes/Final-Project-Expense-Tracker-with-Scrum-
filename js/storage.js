@@ -62,4 +62,3 @@ const removeExpense = (id) => {
 window.addExpense = addExpense;
 window.loadExpenses = loadExpenses;
 window.removeExpense = removeExpense;
-
