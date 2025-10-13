@@ -1,24 +1,36 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Logic for opening the modal form
+    const modal = document.getElementById('modal-add-transaction');
+    const openBtn = document.getElementById('btn-open-modal');
+    const closeBtn = document.getElementById('btn-close-modal');
+
+    openBtn.addEventListener('click', () => {
+        modal.classList.remove('hidden'); // Remove 'hidden' to show the modal form
+    });
+
+    // Logic for closing the modal
+    closeBtn.addEventListener('click', () => {
+        modal.classList.add('hidden'); // Add 'hidden' to hide the modal form
+    });
+
     const form = document.getElementById('expense-form');
-    renderExpenses();
     form.addEventListener('submit', (e) => {
         e.preventDefault();
-
-
 
         const expense = {};
         expense.id = crypto.randomUUID();
         expense.createdAt = new Date().toISOString();
-        // expense.name = document.getElementById('name').value;
-        expense.type = document.getElementById('type').value;
-        expense.category = document.getElementById('category').value;
+        expense.name = document.getElementById('name').value;
         expense.amount = parseFloat(document.getElementById('amount').value);
         expense.note = document.getElementById('note').value;
-        expense.occurredAt = document.getElementById('location').value;
+        expense.category = document.getElementById('category').value;
+        expense.occurredAt = document.getElementById('occurred-at').value;
+
 
         if (addExpense(expense)) {
             form.reset();
-            renderExpenses();
+            alert('Expense added successfully!');
+            document.getElementById('modal-add-transaction').classList.add('hidden'); // For closing the modal when something is added
         } else {
             alert('Failed to add expense. Please try again.');
         }
@@ -68,12 +80,24 @@ function renderExpenses() {
 
         div.append(span1, span2, span3)
 
+        
+        // change date format
+        const [y, m, d] = expense.occurredAt.split('-').map(Number);
+        const day = new Date(y, m - 1, d).toLocaleDateString('es-ES', { weekday: 'long' });
+
+
+        const span4 = document.createElement("span");
+        span4.className = "day";
+        span4.textContent = `${day}`;
+        item.append(span4);
+
 
         list.prepend(item)
     });
 };
 /////////////////////////////////delete option
-//declaring delete mode as off
+// declaring delete mode as off
+
 let isDeleteMode = false;
 
 //coleccion of javascript for non duplicate items
@@ -150,7 +174,7 @@ function enterDeleteMode() {
 
     const items = listelement.querySelectorAll('li');
     items.forEach((li) => {
-        const id = li.dataset.id || li.id; 
+        const id = li.dataset.id || li.id;
         if (!id) return;
 
 
@@ -158,7 +182,7 @@ function enterDeleteMode() {
         cb.type = 'checkbox';
         cb.className = 'selector';
         cb.title = 'Select to delete';
-        li.prepend(cb);
+        li.insertBefore(cb, li.lastElementChild);
     });
 }
 
@@ -200,5 +224,7 @@ function updateConfirmLabel() {
     deleteConfirmBtn.textContent = `Delete selected (${n})`;
     deleteConfirmBtn.disabled = n === 0;
 }
+
+
 
 
