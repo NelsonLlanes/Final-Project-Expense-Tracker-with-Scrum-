@@ -1,7 +1,7 @@
 /**
  * @typeof {Object} Expense
  * @property {string} id - Unique identifier for the expense
- * @property {string} name - Date and time when the expense was created
+ * @property {string} name - name ofthe expense. company or some id.
  * @property {number} amount - Amount of the expense
  * @property {string} [note] - Optional note about the expense
  * @property {string} category - Category of the expense
