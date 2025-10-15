@@ -65,7 +65,7 @@ function renderExpenses() {
 
         // create the span element
         const span1 = document.createElement("span");
-        // add clas to the span1
+        // add class to the span1
         span1.className = `category`;
         // add content to the span elemente
         span1.textContent = `${expense.category}`;
