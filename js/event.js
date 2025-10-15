@@ -34,12 +34,13 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Failed to add expense. Please try again.');
         }
     });
+    renderExpenses();
 });
 
-// rendeexpenses function
-
+// renderExpenses function
 function renderExpenses() {
-    const list = document.getElementById('expense-list')
+    const list = document.getElementById('expense-list');
+    if (list === null) return;
     const expenses = loadExpenses();
     list.innerHTML = ``;
 
