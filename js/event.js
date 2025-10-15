@@ -63,7 +63,7 @@ function renderExpenses() {
         // add the div inside the li
         item.prepend(div)
 
-        // create the span elemente
+        // create the span element
         const span1 = document.createElement("span");
         // add clas to the span1
         span1.className = `category`;
