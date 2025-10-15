@@ -4,14 +4,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const openBtn = document.getElementById('btn-open-modal');
     const closeBtn = document.getElementById('btn-close-modal');
     
-        openBtn.addEventListener('click', () => {
-            modal.classList.remove('hidden'); // Remove 'hidden' to show the modal form
-        });
+    openBtn.addEventListener('click', () => {
+        modal.classList.remove('hidden'); // Remove 'hidden' to show the modal form
+    });
 
     // Logic for closing the modal
-        closeBtn.addEventListener('click', () => {
-            modal.classList.add('hidden'); // Add 'hidden' to hide the modal form
-        });
+    closeBtn.addEventListener('click', () => {
+        modal.classList.add('hidden'); // Add 'hidden' to hide the modal form
+    });
 
     const form = document.getElementById('expense-form');
     form.addEventListener('submit', (e) => {
