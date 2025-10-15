@@ -6,15 +6,15 @@ Use bullets; keep it brief. Repeat for each day of the sprint.
 - Nelson
     Yesterday:---- /
     Today: start render list local storage / 
-    Blockers: non
+    Blockers: none
 - Shintaroo 
     Yesterday: ----0 
     Today: working expens local storage  
-    Blockers: non
+    Blockers: none
 - Matheus 
     Yesterday: --- 
     Today: star html and css code  
-    Blockers: Non
+    Blockers: none
 
 ## Day 2
 - Dev A — Yesterday: ___ / Today: ___ / Blockers: ___

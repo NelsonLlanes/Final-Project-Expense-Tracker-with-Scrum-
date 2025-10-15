@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-///////////////////////////////////////////////////////////////////////// prueba nelson
+// rendeexpenses function
 
 function renderExpenses() {
     const list = document.getElementById('expense-list')
@@ -63,9 +63,9 @@ function renderExpenses() {
         // add the div inside the li
         item.prepend(div)
 
-        // create the span elemente
+        // create the span element
         const span1 = document.createElement("span");
-        // add clas to the span1
+        // add class to the span1
         span1.className = `category`;
         // add content to the span elemente
         span1.textContent = `${expense.category}`;
@@ -78,12 +78,13 @@ function renderExpenses() {
         span3.className = `amount`;
         span3.textContent = ` $ ${expense.amount}`;
 
+        // add span elements inside the div
         div.append(span1, span2, span3)
 
-        
+
         // change date format
         const [y, m, d] = expense.occurredAt.split('-').map(Number);
-        const day = new Date(y, m - 1, d).toLocaleDateString('es-ES', { weekday: 'long' });
+        const day = new Date(y, m - 1, d).toLocaleDateString('en-US', { weekday: 'long' });
 
 
         const span4 = document.createElement("span");
@@ -95,15 +96,16 @@ function renderExpenses() {
         list.prepend(item)
     });
 };
-/////////////////////////////////delete option
-// declaring delete mode as off
 
+// delete mode
+
+// declaring delete toggle as off
 let isDeleteMode = false;
 
 //coleccion of javascript for non duplicate items
 const selectedIds = new Set();
 
-//getting each list element(transaction)
+//getting list element(transaction)
 const listelement = document.getElementById('expense-list');
 
 //delete button
@@ -113,43 +115,27 @@ const deleteConfirmBtn = document.getElementById('delete-confirm');
 
 //on and off delete menu
 deleteToggleBtn.addEventListener('click', () => {
-    //change value to opposite between true and fals.(on and off)
     isDeleteMode = !isDeleteMode;
-
-    //ternary operator. if true call to on function. if falls call to off function
     isDeleteMode ? enterDeleteMode() : exitDeleteMode();
 });
 
-// delete function gent click the button
+// if items are selected. confirm before erasing.
 deleteConfirmBtn.addEventListener('click', () => {
-    // if no items selectedIds, get out the function with out doing nothing
     if (selectedIds.size === 0) return;
-    //alert for quantity confirmation 
     const ok = confirm(`Delete ${selectedIds.size} transaction(s)?`);
-    // if false. get out without doing nothing
     if (!ok) return;
 
-
-    // if true. call remove Expense function.
+    // erase after confirmartion
     for (const id of selectedIds) {
         removeExpense(id);
     }
 
-    // get out and render the list again.
     exitDeleteMode();
     renderExpenses();
 });
 
-listelement.addEventListener('click', (e) => {
-    // if click on checkbox
-    if (e.target.matches('input.selector[type="checkbox"]')) {
-        // look for closest list element
-        const li = e.target.closest('li');
-        // call to toggle function
-        toggleSelection(li, e.target.checked);
-        return;
-    }
 
+listelement.addEventListener('click', (e) => {
     // looking for the closest li of target
     const li = e.target.closest('li');
     // if find nothing. dont do anything
@@ -160,19 +146,30 @@ listelement.addEventListener('click', (e) => {
     if (!cb) return;
     // check or not the checkbox
     cb.checked = !cb.checked;
+    // call function
     toggleSelection(li, cb.checked);
 });
 
+
+// delete function
 function enterDeleteMode() {
+    // erase list of id´s selected
     selectedIds.clear();
+    // update select items to 0
     updateConfirmLabel();
+
+
+    // change the buttons context and disable the confirm button until something is selected
     deleteToggleBtn.textContent = 'Cancel delete';
     deleteConfirmBtn.hidden = false;
     deleteConfirmBtn.disabled = true;
 
+    // change visual of the item selected
     listelement.classList.add('delete-mode');
 
     const items = listelement.querySelectorAll('li');
+
+    // check if the item has an id. if there is add a checkbox
     items.forEach((li) => {
         const id = li.dataset.id || li.id;
         if (!id) return;
@@ -185,6 +182,7 @@ function enterDeleteMode() {
         li.insertBefore(cb, li.lastElementChild);
     });
 }
+
 
 function exitDeleteMode() {
     isDeleteMode = false;
@@ -205,6 +203,8 @@ function exitDeleteMode() {
     });
 }
 
+
+// add or not the "selected" class
 function toggleSelection(li, selected) {
     const id = li.dataset.id || li.id;
     if (!id) return;
@@ -219,6 +219,7 @@ function toggleSelection(li, selected) {
     updateConfirmLabel();
 }
 
+//counter of items selects
 function updateConfirmLabel() {
     const n = selectedIds.size;
     deleteConfirmBtn.textContent = `Delete selected (${n})`;
