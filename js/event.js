@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('modal-add-transaction');
     const openBtn = document.getElementById('btn-open-modal');
     const closeBtn = document.getElementById('btn-close-modal');
-
     openBtn.addEventListener('click', () => {
         modal.classList.remove('hidden'); // Remove 'hidden' to show the modal form
     });
@@ -16,7 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('expense-form');
     form.addEventListener('submit', (e) => {
         e.preventDefault();
-
         const expense = {};
         expense.id = crypto.randomUUID();
         expense.createdAt = new Date().toISOString();
