@@ -4,8 +4,8 @@
 **Sprint Goal:** Summaries & Categories
 
 ## Sprint Dates
-Start: 2025‑10-16  
-End: 2025‑10‑22
+Start: 2025‑10-15
+End: 2025‑10‑19
 
 ## Roles (Rotate each sprint)
 - Product Owner: Nelson 
