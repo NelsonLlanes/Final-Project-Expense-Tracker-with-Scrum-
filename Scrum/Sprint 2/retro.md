@@ -7,4 +7,10 @@
 - ___
 
 ## Action item(s) for next sprint
-- ___
+- Implement budget setting UI (HTML/CSS)
+- Add budget logic and alert triggers (JS)
+- Polish UX and improve accessibility
+- Handle edge cases in expense management
+- Conduct final testing
+- Update README documentation
+- Deploy application (optional)
