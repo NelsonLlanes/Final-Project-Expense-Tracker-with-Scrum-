@@ -1,4 +1,5 @@
 # Sprint 1 — Daily Standup Notes
+Use bullets; keep it brief. Repeat for each day of the sprint.
 
 ## Overview
 **Sprint Duration:** 5 Days  

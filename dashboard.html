@@ -15,31 +15,55 @@
 <body id="body-dashboard">
 
     <header>
-        <div class="p-4 bg-gray-100">
-            <div id="toggle-group"
-                class="inline-flex p- bg-gray-300 rounded-full shadow-inner w-full sm:w-auto cursor-pointer">
 
-                <button data-target="allTransactions"
-                    class="toggle-button flex-1 px-2 py-2 text-sm font-medium whitespace-nowrap active-button">
-                    All Transactions
+            <div class="header" style="display: flex; flex-wrap: wrap;background-color: #f3f4f6;">
+
+                <div class="p-4 ">
+                    <div id="toggle-group"
+                        class="inline-flex p- bg-gray-300 rounded-full shadow-inner w-full sm:w-auto cursor-pointer">
+
+                        <button data-target="allTransactions"
+                            class="toggle-button flex-1 px-2 py-2 text-sm font-medium whitespace-nowrap active-button">
+                            All Transactions
+                        </button>
+
+                        <button data-target="received"
+                            class="toggle-button flex-1 px-2 py-2 text-sm font-medium whitespace-nowrap">
+                            Received
+                        </button>
+
+                        <button data-target="spent"
+                            class="toggle-button flex-1 px-2 py-2 text-sm font-medium whitespace-nowrap">
+                            Spent
+                        </button>
+                    </div>
+                </div>
+
+        
+                <div class="p-4 bg-gray-100 delete-menu">
+                    <button id="delete-toggle" type="button"
+                        class="toggle-button flex-1 px-2 py-2 text-sm font-medium whitespace-nowrap active-button">Delete
+                        transactions
+                    </button>
+                    <button id="delete-confirm" type="button"
+                        class="toggle-button flex-1 px-2 py-2 text-sm font-medium whitespace-nowrap active-button"
+                        hidden disabled>Delete selected (0)
+                    </button>
+                </div>
+                <button id="btn-open-modal" class="fixed bottom-6 right-6 p-4 bg-purple-600 text-white rounded-full shadow-lg hover:bg-purple-700 focus:ring-2 focus:ring-purple-500">
+                    <p>Add Transaction</p>
                 </button>
-
-                <button data-target="received"
-                    class="toggle-button flex-1 px-2 py-2 text-sm font-medium whitespace-nowrap">
-                    Received
-                </button>
-
-                <button data-target="spent"
-                    class="toggle-button flex-1 px-2 py-2 text-sm font-medium whitespace-nowrap">
-                    Spent
-                </button>
-
             </div>
-        </div>
     </header>
 
     <main>
         <div class="timeline">
+
+            <ul id="expense-list">
+
+            </ul>
+
+
             <ul>
                 <!-- There are some examples of how its supposed to work on the end -->
                 <li class="transaction-item transfer">
@@ -90,7 +114,73 @@
             </ul>
         </div>
     </main>
+    <div id="modal-add-transaction"
+        class="fixed inset-0 bg-gray-600 bg-opacity-75 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-md p-6 m-4 transform transition-all duration-300">
 
+            <div class="flex justify-between items-center pb-3 border-b border-gray-200">
+                <h2 class="text-2xl font-semibold text-gray-800">Add New Transaction</h2>
+                <button id="btn-close-modal" class="text-gray-400 hover:text-gray-600 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+
+            <form id="expense-form" class="space-y-4 pt-4">
+
+                <div>
+                    <label for="amount" class="block text-sm font-medium text-gray-700">Amount</label>
+                    <input type="number" id="amount" name="amount" placeholder="e.g., 45.99"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm p-2 border"
+                        step="0.01" required>
+                </div>
+
+                <div>
+                    <label for="transaction-name" class="block text-sm font-medium text-gray-700">Name</label>
+                    <input type="text" id="transaction-name" name="name" placeholder="e.g., Coffee Shop"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm p-2 border"
+                        required>
+                </div>
+
+                <div>
+                    <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
+                    <select id="category" name="category"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm p-2 border bg-white"
+                        required>
+                        <option value="" disabled selected>Select a Category</option>
+                        <option value="supermarket">Supermarket 🛒</option>
+                        <option value="restaurant">Food 🍴</option>
+                        <option value="transport">Transport 🚌</option>
+                        <option value="transfer">Transfer 💸</option>
+                        <option value="other">Other 🤷‍♂️</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="occurred-at" class="block text-sm font-medium text-gray-700">Date</label>
+                    <input type="date" id="occurred-at" name="occurredAt"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm p-2 border"
+                        required>
+                </div>
+
+                <div>
+                    <label for="note" class="block text-sm font-medium text-gray-700">Description (Optional)</label>
+                    <textarea id="note" name="note" rows="2" placeholder="Add a short note about the transaction..."
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm p-2 border"></textarea>
+                </div>
+
+                <button type="submit"
+                    class="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-colors">
+                    Save Transaction
+                </button>
+            </form>
+
+        </div>
+    </div>
 </body>
+<script src="./js/event.js"></script>
+<script src="./js/storage.js"></script>
 
 </html>
