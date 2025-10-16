@@ -7,7 +7,7 @@ Use bullets; keep it brief. Repeat for each day of the sprint.
 
 ---
 
-## 📅 Day 1 - 16/10/2025
+## 📅 Day 1 - 15/10/2025
 
 | Team Member | Yesterday | Today | Blockers |
 |-------------|-----------|-------|----------|
@@ -17,7 +17,7 @@ Use bullets; keep it brief. Repeat for each day of the sprint.
 
 ---
 
-## 📅 Day 2 - 17/10/2025
+## 📅 Day 2 - 16/10/2025
 
 | Team Member | Yesterday | Today | Blockers |
 |-------------|-----------|-------|----------|
@@ -27,7 +27,7 @@ Use bullets; keep it brief. Repeat for each day of the sprint.
 
 ---
 
-## 📅 Day 3 - 20/10/2025
+## 📅 Day 3 - 17/10/2025
 
 | Team Member | Yesterday | Today | Blockers |
 |-------------|-----------|-------|----------|
@@ -37,7 +37,7 @@ Use bullets; keep it brief. Repeat for each day of the sprint.
 
 ---
 
-## 📅 Day 4 - 21/10/2025
+## 📅 Day 4 - 18/10/2025
 
 | Team Member | Yesterday | Today | Blockers |
 |-------------|-----------|-------|----------|
@@ -47,7 +47,7 @@ Use bullets; keep it brief. Repeat for each day of the sprint.
 
 ---
 
-## 📅 Day 5 - 22/10/2025
+## 📅 Day 5 - 19/10/2025
 
 | Team Member | Yesterday | Today | Blockers |
 |-------------|-----------|-------|----------|
