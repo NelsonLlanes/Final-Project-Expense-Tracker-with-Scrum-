@@ -8,18 +8,15 @@ document.addEventListener('DOMContentLoaded', () => {
             tabs.forEach(t => t.classList.add('bg-gray-200', 'text-purple-600', 'hover:bg-gray-300', 'focus:outline-none', 'focus:ring-2', 'focus:ring-purple-500'));
             tab.classList.add('active-tab', 'bg-purple-600', 'text-white', 'hover:bg-purple-700', 'focus:outline-none', 'focus:ring-2', 'focus:ring-purple-500');
             const targetId = `${tab.dataset.target}-container`;
-            charts.forEach(chart => {
-                chart.classList.add('hidden');
-                chart.classList.remove('active-chart');
-            });
-            document.getElementById(targetId).classList.remove('hidden');
-            document.getElementById(targetId).classList.add('active-chart');
+            $(`.chart[id!="${targetId}"]`).fadeOut(300, () => {
+                $(`#${targetId}`).fadeIn(300)
+            })
         });
     });
 
     const expenses = loadExpenses();
     const makeArrGroupByCategory = (obj) => {
-        result = {};
+        const result = {};
         for (const expense of expenses) {
             if (result[expense.category]) {
                 result[expense.category] += expense.amount;
@@ -28,9 +25,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         return result;
-    }
+    };
+
     const makeArrGroupByDate = (obj) => {
-        result = {};
+        const result = {};
         for (const expense of expenses) {
             if (result[expense.occurredAt]) {
                 result[expense.occurredAt] += expense.amount;
@@ -39,14 +37,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         return result;
-    }
+    };
 
     const ctx = document.getElementById('pie-chart');
     const ctxLine = document.getElementById('line-chart');
     const data = makeArrGroupByCategory(expenses);
     const dataByDate = makeArrGroupByDate(expenses);
-    console.log(dataByDate);
-    console.log(data);
+
     new Chart(ctx, {
         type: 'pie',
         data: {
@@ -55,12 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 label: 'Expenses by Category',
                 data: Object.values(data),
                 backgroundColor: [
-                    '#6B46C1', // Deep Purple (Primary Accent)
-                    '#805AD5', // Medium Purple
-                    '#9F7AEA', // Light Purple
-                    '#B794F4', // Soft Lavender
-                    '#D6BCFA', // Pale Purple
-                    '#E9D8FD', // Very Light Purple
+                    '#6B46C1', '#805AD5', '#9F7AEA', '#B794F4', '#D6BCFA', '#E9D8FD'
                 ]
             }]
         },
@@ -72,7 +64,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
             }
         }
-    })
+    });
+
     new Chart(ctxLine, {
         type: 'line',
         data: {
@@ -93,7 +86,5 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
             }
         }
-    })
-
-
+    });
 });
