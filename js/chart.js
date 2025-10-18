@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const ctx = document.getElementById('pie-chart');
-    const ctxBar = document.getElementById('bar-chart');
+    const ctxLine = document.getElementById('line-chart');
     const data = makeArrGroupByCategory(expenses);
     const dataByDate = makeArrGroupByDate(expenses);
     console.log(dataByDate);
@@ -73,8 +73,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     })
-    new Chart(ctxBar, {
-        type: 'bar',
+    new Chart(ctxLine, {
+        type: 'line',
         data: {
             labels: Object.keys(dataByDate),
             datasets: [{

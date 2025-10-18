@@ -59,21 +59,21 @@
     </header>
 
     <main>
-        <div class="chart-tabs-container mx-auto my-8 w-full md:w-2/3">
+        <div class="chart-tabs-container mx-auto my-8 w-1/2 md:w-1/3">
             <div class="tabs flex justify-center space-x-4 mb-6">
                 <button class="tab-button active-tab px-4 py-2 text-sm font-medium text-white bg-purple-600 rounded-lg shadow-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500" data-target="pie-chart">
                     Pie Chart
                 </button>
-                <button class="tab-button px-4 py-2 text-sm font-medium text-purple-600 bg-gray-200 rounded-lg shadow-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500" data-target="bar-chart">
-                    Bar Chart
+                <button class="tab-button px-4 py-2 text-sm font-medium text-purple-600 bg-gray-200 rounded-lg shadow-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500" data-target="line-chart">
+                    Line Chart
                 </button>
             </div>
             <div class="chart-container">
                 <div id="pie-chart-container" class="chart active-chart">
                     <canvas id="pie-chart"></canvas>
                 </div>
-                <div id="bar-chart-container" class="chart hidden">
-                    <canvas id="bar-chart"></canvas>
+                <div id="line-chart-container" class="chart hidden">
+                    <canvas id="line-chart"></canvas>
                 </div>
             </div>
         </div>
