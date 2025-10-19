@@ -3,15 +3,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('modal-add-transaction');
     const openBtn = document.getElementById('btn-open-modal');
     const closeBtn = document.getElementById('btn-close-modal');
+    // editingId = null;
     openBtn.addEventListener('click', () => {
         modal.classList.remove('hidden'); // Remove 'hidden' to show the modal form
+
+        document.getElementById("expense-form").reset(); //reset form when open modal
     });
 
     // Logic for closing the modal
     closeBtn.addEventListener('click', () => {
         modal.classList.add('hidden'); // Add 'hidden' to hide the modal form
-            document.getElementById("expense-form").reset();
-        
+
     });
 
     const form = document.getElementById('expense-form');
@@ -26,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const category = document.getElementById('category').value;
         const occurredAt = document.getElementById('occurred-at').value;
         // EDIT
+
         if (editingId) {
             const ok = updateExpense(editingId, { name, amount, note, category, occurredAt });
             if (ok) {
@@ -37,6 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 isEditMode = false;
                 exitEditMode();
             } else {
+
                 alert('Failed to update expense. Please try again.');
             }
             return;
@@ -302,47 +306,10 @@ function enterEditMode() {
     deleteConfirmBtn.hidden = true;
     deleteConfirmBtn.disabled = true;
 
-    // declare modal of new expense formulari
-    const modal = document.getElementById('modal-add-transaction');
-
-    //true?
-    if (isEditMode) {
-        addEventListener("click", (e) => {
-            //click on the expense
-            const li = (e).target.closest("li");
-            if (!li) return;
-
-            if (isEditMode) {
-                // save the id of li
-                const id = li.dataset.id || li.id;
-                if (!id) return;
-
-                editingId = id;
-
-                // find by a property method 
-                const expense = loadExpenses().find((item) => item.id === id);
-
-                if (!expense) return;
-                //reset form
-                document.getElementById("expense-form").reset();
-
-
-                //assing values to the input
-                document.getElementById("occurred-at").value = expense.createdAt
-                document.getElementById("transaction-name").value = expense.name
-                document.getElementById("amount").value = expense.amount
-                document.getElementById("note").value = expense.note
-                document.getElementById("category").value = expense.category
-                document.getElementById("occurred-at").value = expense.occurredAt
-
-                // open modal with load informacion
-                modal.classList.remove('hidden');
-
-                return
-            }
-        })
-    };
+    editStorage();
 }
+
+
 
 
 // exit edit mode
