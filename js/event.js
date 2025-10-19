@@ -1,3 +1,21 @@
+const CATEGORY_ICON_MAP = {
+    supermarket: 'fa-store',
+    restaurant: 'fa-utensils',
+    transport: 'fa-train-subway',
+    transfer: 'fa-money-bill-transfer',
+    other: 'fa-ellipsis',
+    others: 'fa-ellipsis',
+};
+
+const CATEGORY_LABEL_MAP = {
+    supermarket: 'Supermarket',
+    restaurant: 'Food',
+    transport: 'Transport',
+    transfer: 'Transfer',
+    other: 'Other',
+    others: 'Other',
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     const budgetSettings = loadBudgetSetting();
     const expenses = loadExpenses();
@@ -25,7 +43,12 @@ document.addEventListener('DOMContentLoaded', () => {
         expense.name = document.getElementById('transaction-name').value;
         expense.amount = parseFloat(document.getElementById('amount').value);
         expense.note = document.getElementById('note').value;
-        expense.category = document.getElementById('category').value;
+        const selectedCategory = form.querySelector('input[name="category"]:checked');
+        if (!selectedCategory) {
+            alert('Please select a category.');
+            return;
+        }
+        expense.category = selectedCategory.value;
         expense.occurredAt = document.getElementById('occurred-at').value;
 
         // check budget before adding expense
@@ -64,40 +87,42 @@ function renderExpenses() {
     }
 
     expenses.forEach(expense => {
+        const categoryKey = (expense.category || 'other').toLowerCase();
         // creates the li element
         const item = document.createElement("li");
         // add classname for format to the list element
-        item.className = `transaction-item ${expense.category}`;
+        item.className = `transaction-item transaction-item--${categoryKey}`;
         //add id to the li element
         item.dataset.id = expense.id;
         // add data-category attribute
-        item.dataset.category = expense.category;
-        // create div 
+        item.dataset.category = categoryKey;
+
+        const iconWrapper = document.createElement('span');
+        iconWrapper.className = 'transaction-icon';
+        const iconEl = document.createElement('i');
+        iconEl.className = `fa-solid ${CATEGORY_ICON_MAP[categoryKey] || 'fa-circle-info'}`;
+        iconEl.setAttribute('aria-hidden', 'true');
+        iconWrapper.appendChild(iconEl);
+
         const div = document.createElement("div");
-        // add class to the div
         div.className = `content`;
-        // add the div inside the li
-        item.prepend(div)
 
         // create the span element
         const span1 = document.createElement("span");
         // add class to the span1
         span1.className = `category`;
         // add content to the span elemente
-        span1.textContent = `${expense.category}`;
+        span1.textContent = `${CATEGORY_LABEL_MAP[categoryKey] || expense.category}`;
 
         const span2 = document.createElement("span");
         span2.className = `details`;
-        span2.textContent = `${expense.note}`;
+        span2.textContent = expense.note || expense.name;
 
         const span3 = document.createElement("span");
         span3.className = `amount`;
         span3.textContent = ` $ ${expense.amount}`;
 
-        // add span elements inside the div
-        div.append(span1, span2, span3)
-
-
+        div.append(span1, span2, span3);
         // change date format
         const [y, m, d] = expense.occurredAt.split('-').map(Number);
         const day = new Date(y, m - 1, d).toLocaleDateString('en-US', { weekday: 'long' });
@@ -106,10 +131,9 @@ function renderExpenses() {
         const span4 = document.createElement("span");
         span4.className = "day";
         span4.textContent = `${day}`;
-        item.append(span4);
+        item.append(iconWrapper, div, span4);
 
-
-        list.prepend(item)
+        list.prepend(item);
     });
     checkBudgetExceed();
 };
@@ -257,12 +281,9 @@ const checkBudgetExceed = () => {
         const categoryElement = document.querySelectorAll(`[data-category="${category.toLocaleLowerCase()}"]`);
         if (!categoryElement) continue;
         if (totalExpense > budgetSettings[category]) {
-            categoryElement.forEach(el => el.classList.add('bg-red-100'));
+            categoryElement.forEach(el => el.classList.add('bg-red-200', 'bg-opacity-50'));
         } else {
-            categoryElement.forEach(el => el.classList.remove('bg-red-100'));
+            categoryElement.forEach(el => el.classList.remove('bg-red-200', 'bg-opacity-50'));
         }
     }
 };
-
-
-

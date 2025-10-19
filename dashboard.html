@@ -68,25 +68,34 @@
 
             <ul>
                 <!-- There are some examples of how its supposed to work on the end -->
-                <li class="transaction-item transfer">
+                <li class="transaction-item transaction-item--transfer">
+                    <span class="transaction-icon">
+                        <i class="fa-solid fa-money-bill-transfer" aria-hidden="true"></i>
+                    </span>
                     <div class="content">
-                        <span class="category">E-Transfer</span>
+                        <span class="category">Transfer</span>
                         <span class="details">Nelson</span>
                         <span class="amount received">$500</span>
                     </div>
                     <span class="day">Thursday</span>
                 </li>
 
-                <li class="transaction-item supermarket">
+                <li class="transaction-item transaction-item--supermarket">
+                    <span class="transaction-icon">
+                        <i class="fa-solid fa-store" aria-hidden="true"></i>
+                    </span>
                     <div class="content">
                         <span class="category">Supermarket</span>
                         <span class="details">Costco</span>
-                        <span class="amount">$125,34</span>
+                        <span class="amount">$125.34</span>
                     </div>
                     <span class="day">Thursday</span>
                 </li>
 
-                <li class="transaction-item transport">
+                <li class="transaction-item transaction-item--transport">
+                    <span class="transaction-icon">
+                        <i class="fa-solid fa-train-subway" aria-hidden="true"></i>
+                    </span>
                     <div class="content">
                         <span class="category">Transport</span>
                         <span class="details">Skytrain</span>
@@ -95,7 +104,10 @@
                     <span class="day">Wednesday</span>
                 </li>
 
-                <li class="transaction-item transport">
+                <li class="transaction-item transaction-item--transport">
+                    <span class="transaction-icon">
+                        <i class="fa-solid fa-train-subway" aria-hidden="true"></i>
+                    </span>
                     <div class="content">
                         <span class="category">Transport</span>
                         <span class="details">Bus</span>
@@ -104,11 +116,14 @@
                     <span class="day">Tuesday</span>
                 </li>
 
-                <li class="transaction-item restaurant">
+                <li class="transaction-item transaction-item--restaurant">
+                    <span class="transaction-icon">
+                        <i class="fa-solid fa-utensils" aria-hidden="true"></i>
+                    </span>
                     <div class="content">
                         <span class="category">Food</span>
                         <span class="details">Cactus Club Cafe</span>
-                        <span class="amount">$28,50</span>
+                        <span class="amount">$28.50</span>
                     </div>
                     <span class="day">Tuesday</span>
                 </li>
@@ -145,18 +160,17 @@
                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm p-2 border"
                         required>
                 </div>
-
                 <div>
                     <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
                     <select id="category" name="category"
                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm p-2 border bg-white"
                         required>
                         <option value="" disabled selected>Select a Category</option>
-                        <option value="supermarket">Supermarket 🛒</option>
-                        <option value="restaurant">Food 🍴</option>
-                        <option value="transport">Transport 🚌</option>
-                        <option value="transfer">Transfer 💸</option>
-                        <option value="other">Other 🤷‍♂️</option>
+                        <option value="supermarket">Supermarket</option>
+                        <option value="restaurant">Food</option>
+                        <option value="transport">Transport</option>
+                        <option value="transfer">Transfer</option>
+                        <option value="other">Other</option>
                     </select>
                 </div>
 
