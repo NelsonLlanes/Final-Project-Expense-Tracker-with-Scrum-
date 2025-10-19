@@ -9,10 +9,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="main.css">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/1321904a85.js" crossorigin="anonymous"></script>
     <title>Dashboard</title>
 </head>
 
-<body id="body-dashboard">
+<body id="body-dashboard" class="has-footer-nav">
 
     <header>
 
@@ -51,14 +52,14 @@
                     </button>
                 </div>
             </div>
-            <button id="btn-open-modal" class="fixed bottom-6 right-6 p-4 bg-purple-600 text-white rounded-full shadow-lg hover:bg-purple-700 focus:ring-2 focus:ring-purple-500">
+            <button id="btn-open-modal" class="fixed right-6 p-4 bg-purple-600 text-white rounded-full shadow-lg hover:bg-purple-700 focus:ring-2 focus:ring-purple-500 floating-action">
                 <p>Add Transaction</p>
             </button>
         </div>
     </header>
 
     <main>
-        <div class="timeline">
+        <div class="timeline mb-24">
 
             <ul id="expense-list">
 
@@ -180,6 +181,22 @@
 
         </div>
     </div>
+    <footer class="footer-nav">
+        <nav class="footer-nav__container">
+            <a href="index.html" class="footer-nav__link">
+                <i class="fa-solid fa-house footer-nav__icon" aria-hidden="true"></i>
+                <span>Home</span>
+            </a>
+            <a href="dashboard.html" class="footer-nav__link footer-nav__link--active">
+                <i class="fa-solid fa-chart-line footer-nav__icon" aria-hidden="true"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="setting.html" class="footer-nav__link">
+                <i class="fa-solid fa-gear footer-nav__icon" aria-hidden="true"></i>
+                <span>Setting</span>
+            </a>
+        </nav>
+    </footer>
 </body>
 <script src="./js/storage.js" defer></script>
 <script src="./js/setting.storage.js" defer></script>

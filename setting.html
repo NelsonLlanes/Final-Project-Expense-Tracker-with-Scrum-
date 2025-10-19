@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Budget Settings</title>
+    <link rel="stylesheet" href="main.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://kit.fontawesome.com/1321904a85.js" crossorigin="anonymous"></script>
     <script src="./js/setting.event.js" defer></script>
     <script src="./js/setting.storage.js" defer></script>
 </head>
-<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+<body class="bg-gray-100 min-h-screen flex items-center justify-center has-footer-nav">
     <div class="bg-white shadow-md rounded-lg p-6 w-full max-w-md">
         <h1 class="text-2xl font-bold text-purple-600 mb-4">Set Your Budget</h1>
         <form id="budget-form" class="space-y-4">
@@ -19,5 +20,21 @@
             <button type="submit" class="w-full bg-purple-600 text-white py-2 px-4 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">Save Budgets</button>
         </form>
     </div>
+    <footer class="footer-nav">
+        <nav class="footer-nav__container">
+            <a href="index.html" class="footer-nav__link">
+                <i class="fa-solid fa-house footer-nav__icon" aria-hidden="true"></i>
+                <span>Home</span>
+            </a>
+            <a href="dashboard.html" class="footer-nav__link">
+                <i class="fa-solid fa-chart-line footer-nav__icon" aria-hidden="true"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="setting.html" class="footer-nav__link footer-nav__link--active">
+                <i class="fa-solid fa-gear footer-nav__icon" aria-hidden="true"></i>
+                <span>Setting</span>
+            </a>
+        </nav>
+    </footer>
 </body>
 </html>
