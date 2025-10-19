@@ -4,9 +4,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     tabs.forEach(tab => {
         tab.addEventListener('click', () => {
+            // initially remove all active classes
             tabs.forEach(t => t.classList.remove('active-tab', 'bg-purple-600', 'text-white', 'hover:bg-purple-700', 'focus:outline-none', 'focus:ring-2', 'focus:ring-purple-500'));
             tabs.forEach(t => t.classList.add('bg-gray-200', 'text-purple-600', 'hover:bg-gray-300', 'focus:outline-none', 'focus:ring-2', 'focus:ring-purple-500'));
+            tabs.forEach(t => t.setAttribute('aria-selected', 'false'));
+            // add active classes to the clicked tab
             tab.classList.add('active-tab', 'bg-purple-600', 'text-white', 'hover:bg-purple-700', 'focus:outline-none', 'focus:ring-2', 'focus:ring-purple-500');
+            tab.setAttribute('aria-selected', 'true');
             const targetId = `${tab.dataset.target}-container`;
             $(`.chart[id!="${targetId}"]`).fadeOut(300, () => {
                 $(`#${targetId}`).fadeIn(300)
@@ -66,13 +70,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    const dates = Object.keys(dataByDate).sort((a, b) => new Date(a) - new Date(b));
     new Chart(ctxLine, {
         type: 'line',
         data: {
-            labels: Object.keys(dataByDate),
+            labels: dates,
             datasets: [{
                 label: 'Expenses by Date',
-                data: Object.values(dataByDate),
+                data: dates.map(date => dataByDate[date]),
                 fill: false,
                 borderColor: '#6B46C1',
                 backgroundColor: '#7b64b1ff',
