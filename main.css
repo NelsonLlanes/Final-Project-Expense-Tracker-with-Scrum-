@@ -277,7 +277,8 @@ input.selector {
 .dropdown-filter {
     position: relative;
     display: inline-block;
-    top: 14%;
+    top: 24%;
+    z-index: 20;
 }
 
 .dropbtn {
