@@ -58,47 +58,20 @@ const removeExpense = (id) => {
     return false;
 }
 
-function editStorage() {
+const updateExpense = (id, updates) => {
+    const expenses = loadExpenses();
+    const idx = expenses.findIndex(e => e.id === id);
+    if (idx === -1) return false;
 
-    // declare modal of new expense formulari
-    const modal = document.getElementById('modal-add-transaction');
-    //true?
-    if (isEditMode) {
-        addEventListener("click", (e) => {
-            //click on the expense
-            const li = (e).target.closest("li");
-            if (!li) return;
-
-            if (isEditMode) {
-                // save the id of li
-                const id = li.dataset.id || li.id;
-                if (!id) return;
-
-                editingId = id;
-
-                // find by a property method 
-                const expense = loadExpenses().find((item) => item.id === id);
-
-                if (!expense) return;
-                //reset form
-                document.getElementById("expense-form").reset();
-
-
-                //assing values to the input
-                document.getElementById("occurred-at").value = expense.createdAt
-                document.getElementById("transaction-name").value = expense.name
-                document.getElementById("amount").value = expense.amount
-                document.getElementById("note").value = expense.note
-                document.getElementById("category").value = expense.category
-                document.getElementById("occurred-at").value = expense.occurredAt
-
-                // open modal with load informacion
-                modal.classList.remove('hidden');
-
-                return
-            }
-        })
+    expenses[idx] = {
+        ...expenses[idx],
+        ...updates,
+        id: expenses[idx].id,
+        createdAt: expenses[idx].createdAt,
     };
+
+    localStorage.setItem('expenses', JSON.stringify(expenses));
+    return true;
 }
 
 
@@ -107,3 +80,4 @@ function editStorage() {
 window.addExpense = addExpense;
 window.loadExpenses = loadExpenses;
 window.removeExpense = removeExpense;
+window.updateExpense = updateExpense;
