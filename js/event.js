@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const budgetSettings = loadBudgetSetting();
+    const expenses = loadExpenses();
+
     // Logic for opening the modal form
     const modal = document.getElementById('modal-add-transaction');
     const openBtn = document.getElementById('btn-open-modal');
@@ -24,6 +27,17 @@ document.addEventListener('DOMContentLoaded', () => {
         expense.note = document.getElementById('note').value;
         expense.category = document.getElementById('category').value;
         expense.occurredAt = document.getElementById('occurred-at').value;
+
+        // check budget before adding expense
+        const totalExpense = expenses
+            .filter(exp => exp.category === expense.category.toLocaleLowerCase())
+            .reduce((sum, exp) => sum + exp.amount, 0) + expense.amount;
+        if (totalExpense > budgetSettings[expense.category]) {
+            const userConfirmed = confirm(`Budget exceeded for ${expense.category}! Do you still want to add this expense?`);
+            if (!userConfirmed) {
+                return; // abort adding the expense
+            }
+        }
 
 
         if (addExpense(expense)) {
@@ -56,6 +70,8 @@ function renderExpenses() {
         item.className = `transaction-item ${expense.category}`;
         //add id to the li element
         item.dataset.id = expense.id;
+        // add data-category attribute
+        item.dataset.category = expense.category;
         // create div 
         const div = document.createElement("div");
         // add class to the div
@@ -95,6 +111,7 @@ function renderExpenses() {
 
         list.prepend(item)
     });
+    checkBudgetExceed();
 };
 
 // delete mode
@@ -226,6 +243,26 @@ function updateConfirmLabel() {
     deleteConfirmBtn.disabled = n === 0;
 }
 
+// budget exceed check and highlight
+const checkBudgetExceed = () => {
+    const budgetSettings = loadBudgetSetting();
+    const expenses = loadExpenses();
+
+    for (const category in budgetSettings) {
+        let categoryLowerCase = category.toLocaleLowerCase()
+        const totalExpense = expenses
+            .filter(exp => exp.category == categoryLowerCase)
+            .reduce((sum, exp) => sum + exp.amount, 0);
+
+        const categoryElement = document.querySelectorAll(`[data-category="${category.toLocaleLowerCase()}"]`);
+        if (!categoryElement) continue;
+        if (totalExpense > budgetSettings[category]) {
+            categoryElement.forEach(el => el.classList.add('bg-red-100'));
+        } else {
+            categoryElement.forEach(el => el.classList.remove('bg-red-100'));
+        }
+    }
+};
 
 
 

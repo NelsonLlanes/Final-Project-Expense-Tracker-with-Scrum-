@@ -3,19 +3,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const categoryList = document.getElementById('category-list');
 
     const icons = {
-        'Supermarket': 'fa-store',
-        'Food': 'fa-utensils',
-        'Transport': 'fa-train-subway',
-        'Transfer': 'fa-money-bill-transfer',
-        'Others': 'fa-ellipsis'
+        'supermarket': 'fa-store',
+        'food': 'fa-utensils',
+        'transport': 'fa-train-subway',
+        'transfer': 'fa-money-bill-transfer',
+        'others': 'fa-ellipsis'
     };
 
     categories.forEach(category => {
+        const categoryLower = category.toLocaleLowerCase();
         const row = document.createElement('div');
         row.classList.add('flex', 'items-center', 'justify-between', 'mb-4');
 
         const icon = document.createElement('i');
-        icon.classList.add('fa-solid', icons[category], 'text-purple-600', 'mr-2');
+        icon.classList.add('fa-solid', icons[categoryLower], 'text-purple-600', 'mr-2');
 
         const label = document.createElement('span');
         label.textContent = category;
@@ -28,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
         input.classList.add('border', 'border-gray-300', 'rounded-md', 'shadow-sm', 'focus:ring-purple-500', 'focus:border-purple-500', 'w-1/2', 'p-2');
         input.min = '0';
         // load existing budget setting
-        input.value = loadBudgetSetting()[category] || 0;
+        input.value = loadBudgetSetting()[categoryLower] || 0;
 
         const labelContainer = document.createElement('div');
         labelContainer.classList.add('flex', 'items-center');
@@ -46,11 +47,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const budgets = {};
         const inputs = categoryList.querySelectorAll('input');
         categories.forEach((category, index) => {
-            budgets[category] = inputs[index].value;
+            budgets[category.toLocaleLowerCase()] = inputs[index].value;
         });
-        // save budget setting
+        // Save the budget settings
         saveBudgetSetting(budgets);
-        console.log('Budgets:', budgets); // Replace with actual save logic
         alert('Budgets saved successfully!');
     });
 });
