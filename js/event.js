@@ -10,11 +10,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Logic for closing the modal
     closeBtn.addEventListener('click', () => {
         modal.classList.add('hidden'); // Add 'hidden' to hide the modal form
+            document.getElementById("expense-form").reset();
+        
     });
 
     const form = document.getElementById('expense-form');
     form.addEventListener('submit', (e) => {
         e.preventDefault();
+
 
 
         const name = document.getElementById('transaction-name').value;
@@ -312,27 +315,29 @@ function enterEditMode() {
             if (isEditMode) {
                 // save the id of li
                 const id = li.dataset.id || li.id;
+                if (!id) return;
+
+                editingId = id;
 
                 // find by a property method 
-                const expenses = loadExpenses().find((item) => {
-                    // save id
-                    editingId = id;
+                const expense = loadExpenses().find((item) => item.id === id);
 
-                    //reset form
-                    document.getElementById("expense-form").reset();
+                if (!expense) return;
+                //reset form
+                document.getElementById("expense-form").reset();
 
 
-                    //assing values to the input
-                    document.getElementById("occurred-at").value = item.createdAt
-                    document.getElementById("transaction-name").value = item.name
-                    document.getElementById("amount").value = item.amount
-                    document.getElementById("note").value = item.note
-                    document.getElementById("category").value = item.category
-                    document.getElementById("occurred-at").value = item.occurredAt
+                //assing values to the input
+                document.getElementById("occurred-at").value = expense.createdAt
+                document.getElementById("transaction-name").value = expense.name
+                document.getElementById("amount").value = expense.amount
+                document.getElementById("note").value = expense.note
+                document.getElementById("category").value = expense.category
+                document.getElementById("occurred-at").value = expense.occurredAt
 
-                    // open modal with load informacion
-                    modal.classList.remove('hidden');
-                });
+                // open modal with load informacion
+                modal.classList.remove('hidden');
+
                 return
             }
         })
@@ -342,6 +347,8 @@ function enterEditMode() {
 
 // exit edit mode
 function exitEditMode() {
+    document.getElementById("expense-form").reset();
+
     isEditMode = false;
     editingId = null;
     EditToggleBtn.textContent = 'Edit';
