@@ -16,44 +16,54 @@
 
     <header>
 
-            <div class="header" style="display: flex; flex-wrap: wrap;background-color: #f3f4f6;">
+        <div class="header" style="display: flex; flex-wrap: wrap;background-color: #f3f4f6;">
 
-                <div class="p-4 ">
-                    <div id="toggle-group"
-                        class="inline-flex p- bg-gray-300 rounded-full shadow-inner w-full sm:w-auto cursor-pointer">
+            <div class="p-4 ">
+                <div id="toggle-group"
+                    class="inline-flex p- bg-gray-300 rounded-full shadow-inner w-full sm:w-auto cursor-pointer">
 
-                        <button data-target="allTransactions"
-                            class="toggle-button flex-1 px-2 py-2 text-sm font-medium whitespace-nowrap active-button">
-                            All Transactions
-                        </button>
-
-                        <button data-target="received"
-                            class="toggle-button flex-1 px-2 py-2 text-sm font-medium whitespace-nowrap">
-                            Received
-                        </button>
-
-                        <button data-target="spent"
-                            class="toggle-button flex-1 px-2 py-2 text-sm font-medium whitespace-nowrap">
-                            Spent
-                        </button>
-                    </div>
-                </div>
-
-        
-                <div class="p-4 bg-gray-100 delete-menu">
-                    <button id="delete-toggle" type="button"
-                        class="toggle-button flex-1 px-2 py-2 text-sm font-medium whitespace-nowrap active-button">Delete
-                        transactions
+                    <button data-target="allTransactions"
+                        class="toggle-button flex-1 px-2 py-2 text-sm font-medium whitespace-nowrap active-button">
+                        All Transactions
                     </button>
-                    <button id="delete-confirm" type="button"
-                        class="toggle-button flex-1 px-2 py-2 text-sm font-medium whitespace-nowrap active-button"
-                        hidden disabled>Delete selected (0)
+
+                    <button data-target="received"
+                        class="toggle-button flex-1 px-2 py-2 text-sm font-medium whitespace-nowrap">
+                        Received
+                    </button>
+
+                    <button data-target="spent"
+                        class="toggle-button flex-1 px-2 py-2 text-sm font-medium whitespace-nowrap">
+                        Spent
                     </button>
                 </div>
             </div>
-            <button id="btn-open-modal" class="fixed bottom-6 right-6 p-4 bg-purple-600 text-white rounded-full shadow-lg hover:bg-purple-700 focus:ring-2 focus:ring-purple-500">
-                <p>Add Transaction</p>
-            </button>
+
+
+            <div class="p-4 bg-gray-100 delete-menu">
+
+                <button id="delete-toggle" type="button"
+                    class="toggle-button flex-1 px-2 py-2 text-sm font-medium whitespace-nowrap active-button">Delete
+                    transactions
+                </button>
+
+                <button id="Edit-toggle" type="button"
+                    class="toggle-button flex-1 px-2 py-2 text-sm font-medium whitespace-nowrap active-button">
+                    Edit
+                </button>
+
+                <button id="delete-confirm" type="button"
+                    class="toggle-button flex-1 px-2 py-2 text-sm font-medium whitespace-nowrap active-button" hidden
+                    disabled>Delete selected (0)
+                </button>
+
+
+            </div>
+        </div>
+        <button id="btn-open-modal"
+            class="fixed bottom-6 right-6 p-4 bg-purple-600 text-white rounded-full shadow-lg hover:bg-purple-700 focus:ring-2 focus:ring-purple-500">
+            <p>Add Transaction</p>
+        </button>
         </div>
     </header>
 
