@@ -3,6 +3,7 @@
     margin: 0;
     padding: 0;
     font-family: 'Poppins', sans-serif;
+    font-size: 16px;
 }
 
 :root {
@@ -12,6 +13,7 @@
     --color-text-dark: #333333;
     --color-text-light: #ffffff;
     --color-balance: #4CAF50;
+    --color-description: #666666;
 }
 
 /* Home Page */
@@ -253,8 +255,9 @@ input.selector {
 }
 
 .details {
-    font-size: 1em;
+    font-size: .85em;
     font-weight: 500;
+    color: var(--color-description);
 }
 
 .amount {

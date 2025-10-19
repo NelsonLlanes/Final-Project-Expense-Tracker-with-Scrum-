@@ -15,19 +15,45 @@ document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('expense-form');
     form.addEventListener('submit', (e) => {
         e.preventDefault();
-        const expense = {};
-        expense.id = crypto.randomUUID();
-        expense.createdAt = new Date().toISOString();
-        expense.name = document.getElementById('name').value;
-        expense.amount = parseFloat(document.getElementById('amount').value);
-        expense.note = document.getElementById('note').value;
-        expense.category = document.getElementById('category').value;
-        expense.occurredAt = document.getElementById('occurred-at').value;
 
+
+        const name = document.getElementById('transaction-name').value;
+        const amount = parseFloat(document.getElementById('amount').value);
+        const note = document.getElementById('note').value;
+        const category = document.getElementById('category').value;
+        const occurredAt = document.getElementById('occurred-at').value;
+        // EDIT
+        if (editingId) {
+            const ok = updateExpense(editingId, { name, amount, note, category, occurredAt });
+            if (ok) {
+                form.reset();
+                alert('Expense updated successfully!');
+                renderExpenses();
+                modal.classList.add('hidden');
+                editingId = null;
+                isEditMode = false;
+                exitEditMode();
+            } else {
+                alert('Failed to update expense. Please try again.');
+            }
+            return;
+        }
+
+        // ADD
+        const expense = {
+            id: crypto.randomUUID(),
+            createdAt: new Date().toISOString(),
+            name,
+            amount,
+            note,
+            category,
+            occurredAt,
+        };
 
         if (addExpense(expense)) {
             form.reset();
             alert('Expense added successfully!');
+            renderExpenses();
             document.getElementById('modal-add-transaction').classList.add('hidden'); // For closing the modal when something is added
         } else {
             alert('Failed to add expense. Please try again.');
@@ -35,6 +61,24 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     renderExpenses();
 });
+
+function updateExpense(id, updates) {
+    const expenses = loadExpenses();
+    const idx = expenses.findIndex(e => e.id === id);
+    if (idx === -1) return false;
+
+    expenses[idx] = {
+        ...expenses[idx],
+        ...updates,
+        id: expenses[idx].id,
+        createdAt: expenses[idx].createdAt,
+    };
+
+    localStorage.setItem('expenses', JSON.stringify(expenses));
+    return true;
+}
+
+
 
 // renderExpenses function
 function renderExpenses() {
@@ -69,6 +113,10 @@ function renderExpenses() {
         // add content to the span elemente
         span1.textContent = `${expense.category}`;
 
+        const span5 = document.createElement("span");
+        span5.className = `name`;
+        span5.textContent = `${expense.name}`;
+
         const span2 = document.createElement("span");
         span2.className = `details`;
         span2.textContent = `${expense.note}`;
@@ -78,7 +126,7 @@ function renderExpenses() {
         span3.textContent = ` $ ${expense.amount}`;
 
         // add span elements inside the div
-        div.append(span1, span2, span3)
+        div.append(span1, span5, span2, span3)
 
 
         // change date format
@@ -111,6 +159,8 @@ const listelement = document.getElementById('expense-list');
 const deleteToggleBtn = document.getElementById('delete-toggle');
 //confirm button
 const deleteConfirmBtn = document.getElementById('delete-confirm');
+// edit button
+const EditToggleBtn = document.getElementById('Edit-toggle');
 
 //on and off delete menu
 deleteToggleBtn.addEventListener('click', () => {
@@ -147,6 +197,7 @@ listelement.addEventListener('click', (e) => {
     cb.checked = !cb.checked;
     // call function
     toggleSelection(li, cb.checked);
+    modal.classList.add('hidden'); // Add 'hidden' to hide the modal form
 });
 
 
@@ -162,6 +213,7 @@ function enterDeleteMode() {
     deleteToggleBtn.textContent = 'Cancel delete';
     deleteConfirmBtn.hidden = false;
     deleteConfirmBtn.disabled = true;
+    EditToggleBtn.hidden = true;
 
     // change visual of the item selected
     listelement.classList.add('delete-mode');
@@ -190,6 +242,7 @@ function exitDeleteMode() {
     deleteToggleBtn.textContent = 'Delete transactions';
     deleteConfirmBtn.hidden = true;
     deleteConfirmBtn.disabled = true;
+    EditToggleBtn.hidden = false;
 
     listelement.classList.remove('delete-mode');
 
@@ -225,6 +278,78 @@ function updateConfirmLabel() {
     deleteConfirmBtn.disabled = n === 0;
 }
 
+// edit function
+let isEditMode = false;
+let editingId = null;
+
+// toggle edit mode
+EditToggleBtn.addEventListener('click', () => {
+    isEditMode = !isEditMode;
+    isEditMode ? enterEditMode() : exitEditMode();
+});
+
+// enter Edit funtion 
+function enterEditMode() {
 
 
+    // change the buttons context and disable the confirm button until something is selected
+    EditToggleBtn.textContent = 'Cancel Edit';
+    EditToggleBtn.hidden = false;
+    deleteToggleBtn.hidden = true
+    deleteConfirmBtn.hidden = true;
+    deleteConfirmBtn.disabled = true;
+
+    // declare modal of new expense formulari
+    const modal = document.getElementById('modal-add-transaction');
+
+    //true?
+    if (isEditMode) {
+        addEventListener("click", (e) => {
+            //click on the expense
+            const li = (e).target.closest("li");
+            if (!li) return;
+
+            if (isEditMode) {
+                // save the id of li
+                const id = li.dataset.id || li.id;
+
+                // find by a property method 
+                const expenses = loadExpenses().find((item) => {
+                    // save id
+                    editingId = id;
+
+                    //reset form
+                    document.getElementById("expense-form").reset();
+
+
+                    //assing values to the input
+                    document.getElementById("occurred-at").value = item.createdAt
+                    document.getElementById("transaction-name").value = item.name
+                    document.getElementById("amount").value = item.amount
+                    document.getElementById("note").value = item.note
+                    document.getElementById("category").value = item.category
+                    document.getElementById("occurred-at").value = item.occurredAt
+
+                    // open modal with load informacion
+                    modal.classList.remove('hidden');
+                });
+                return
+            }
+        })
+    };
+}
+
+
+// exit edit mode
+function exitEditMode() {
+    isEditMode = false;
+    editingId = null;
+    EditToggleBtn.textContent = 'Edit';
+    EditToggleBtn.hidden = false;
+    deleteToggleBtn.hidden = false;
+    deleteConfirmBtn.hidden = true;
+    deleteConfirmBtn.disabled = true;
+
+
+}
 
