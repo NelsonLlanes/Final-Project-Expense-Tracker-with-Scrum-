@@ -9,6 +9,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="main.css">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>Dashboard</title>
 </head>
 
@@ -63,6 +65,24 @@
     </header>
 
     <main>
+        <div class="chart-tabs-container mx-auto my-8 w-1/2 md:w-1/3">
+            <div class="tabs flex justify-center space-x-4 mb-6">
+                <button class="tab-button active-tab px-4 py-2 text-sm font-medium text-white bg-purple-600 rounded-lg shadow-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500" data-target="pie-chart" aria-selected="true" role="tab" aria-controls="pie-chart-container">
+                    Pie Chart
+                </button>
+                <button class="tab-button px-4 py-2 text-sm font-medium text-purple-600 bg-gray-200 rounded-lg shadow-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500" data-target="line-chart" aria-selected="false" role="tab" aria-controls="line-chart-container">
+                    Line Chart
+                </button>
+            </div>
+            <div class="chart-container">
+                <div id="pie-chart-container" class="chart active-chart">
+                    <canvas id="pie-chart"></canvas>
+                </div>
+                <div id="line-chart-container" class="chart hidden">
+                    <canvas id="line-chart"></canvas>
+                </div>
+            </div>
+        </div>
         <div class="timeline">
 
             <ul id="expense-list">
@@ -107,7 +127,7 @@
                         required>
                         <option value="" disabled selected>Select a Category</option>
                         <option value="supermarket">Supermarket 🛒</option>
-                        <option value="restaurant">Food 🍴</option>
+                        <option value="restaurant">Restaurant 🍴</option>
                         <option value="transport">Transport 🚌</option>
                         <option value="transfer">Transfer 💸</option>
                         <option value="other">Other 🤷‍♂️</option>
@@ -139,5 +159,6 @@
 <script src="./js/storage.js" defer></script>
 <script src="./js/event.js" defer></script>
 <script src="./js/dropdown-filter.js"></script>
+<script src="./js/chart.js" defer></script>
 
 </html>
