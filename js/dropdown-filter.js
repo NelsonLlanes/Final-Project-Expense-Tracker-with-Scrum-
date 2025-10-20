@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const itemCategoryClass = item.className.split(' ')[1];
 
             // logic to hide or show
-            if (categoryToMatch === 'All') {
+            if (categoryToMatch === 'all') {
                 item.style.display = '';
                 selectedFilter.innerHTML="";
             } else if (itemCategoryClass !== categoryToMatch) {
