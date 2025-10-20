@@ -9,28 +9,29 @@ document.addEventListener('DOMContentLoaded', () => {
         const transactionItems = transactionList ? transactionList.querySelectorAll('li') : [];
         // array of items
         const itemsArray = Array.from(transactionItems);
+        // for letting user know what filter is selected
+        let selectedFilter = document.querySelector("#selected-filter");
 
         // loop for accessing the items
         itemsArray.forEach(item => {
             // reset everytime the loop restarts
             item.style.display = '';
 
-            // mapping the differences between names
+            // storing the selected category
             let categoryToMatch = selectedCategory;
-
-            // correction for restaurant and food name differences
-            if (selectedCategory === 'food') {
-                categoryToMatch = 'restaurant';
-            }
 
             const itemCategoryClass = item.className.split(' ')[1];
 
             // logic to hide or show
-            if (categoryToMatch === 'all') {
+            if (categoryToMatch === 'All') {
                 item.style.display = '';
+                selectedFilter.innerHTML="";
             } else if (itemCategoryClass !== categoryToMatch) {
                 // make the non selected item display none
                 item.style.display = 'none';
+                // making user see what filter is selected
+                selectedFilter.innerHTML="";
+                selectedFilter.append(`Filtering: ${categoryToMatch}`);
             }
         });
 

@@ -45,7 +45,7 @@ function renderExpenses() {
     list.innerHTML = ``;
 
     if (expenses.length === 0) {
-        list.innerHTML = '<li>No expenses yet</li>';
+        list.innerHTML = '<li style="padding: 10px 0 10px 20px; font-family: Segoe UI">No expenses yet! </li>';
         return;
     }
 
