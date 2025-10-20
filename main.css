@@ -130,6 +130,12 @@
     padding: 20px;
 }
 
+/* Modal */
+
+#btn-open-modal {
+    z-index: 1000;
+}
+
 /* Timeline */
 .timeline {
     width: 100%;
@@ -267,8 +273,6 @@ input.selector {
 .day {
     font-size: 0.8em;
     color: #aaa;
-    text-align: right;
-    width: 70px;
     white-space: nowrap;
 }
 
@@ -325,7 +329,7 @@ input.selector {
         max-width: 800px;
     }
 
-    .dropdown-filter{
+    .dropdown-filter {
         top: 27%;
     }
 
@@ -339,7 +343,7 @@ input.selector {
         max-width: 1440px;
     }
 
-    .dropdown-filter{
+    .dropdown-filter {
         top: 27%;
     }
 

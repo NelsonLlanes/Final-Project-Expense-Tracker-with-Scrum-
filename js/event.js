@@ -84,12 +84,20 @@ function renderExpenses() {
 
         // change date format
         const [y, m, d] = expense.occurredAt.split('-').map(Number);
-        const day = new Date(y, m - 1, d).toLocaleDateString('en-US', { weekday: 'long' });
+        const transactionDate = new Date(y, m - 1, d);
+        const formatedDate = transactionDate.toLocaleDateString('en-US',{
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+        })
+        const dayWeek = transactionDate.toLocaleDateString('en-US', { weekday: 'long' });
+        const finalDateText = `${formatedDate} - ${dayWeek}`;
+        // const day = new Date(y, m - 1, d).toLocaleDateString('en-US', { weekday: 'long' });
 
 
         const span4 = document.createElement("span");
         span4.className = "day";
-        span4.textContent = `${day}`;
+        span4.textContent = `${finalDateText}`;
         item.append(span4);
 
 
