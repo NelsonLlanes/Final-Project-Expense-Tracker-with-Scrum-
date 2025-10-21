@@ -341,13 +341,32 @@ input.selector {
     display: block;
 }
 
+/* Month filter */
+
+.month-selector-container {
+    position: relative;
+    margin-right: 10px;
+}
+
+#month-dropdown-toggle {
+    transition: background-color 0.2s ease-in-out;
+}
+
+#month-dropdown-toggle:hover {
+    background-color: #f3f4f6;
+}
+
+#month-dropdown-content {
+    z-index: 50; 
+}
+
+.month-link {
+    transition: background-color 0.15s ease-in-out;
+}
+
 @media (min-width: 768px) {
     .timeline {
         max-width: 800px;
-    }
-
-    .dropdown-filter {
-        top: 27%;
     }
 
     .header {
@@ -358,10 +377,6 @@ input.selector {
 @media (min-width: 1024px) {
     .timeline {
         max-width: 1440px;
-    }
-
-    .dropdown-filter {
-        top: 27%;
     }
 
     .header {

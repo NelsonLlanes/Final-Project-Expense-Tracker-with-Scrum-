@@ -20,14 +20,23 @@
 
         <div class="header" style="border-radius: 10px; display: flex; flex-wrap: wrap;background-color: #f3f4f6;">
 
-            <div class="p-4 transaction-filter">
-                <div id="toggle-group"
-                    class="inline-flex p-4 bg-white-300 rounded-full w-full text-xl sm:w-auto">
-                    <h2 style="background-color: #D1D5DB;" class="rounded-full p-2">All Transactions</h2>
-                </div>
-            </div>
+            <div class="p-4 relative month-selector-container">
+				<div id="month-dropdown-toggle"
+					class="inline-flex items-center justify-between p-2 bg-white text-purple-600 rounded-full shadow-md cursor-pointer hover:bg-gray-100 transition duration-150 ease-in-out w-auto min-w-[150px]"
+					aria-expanded="false" aria-controls="month-dropdown-content">
+					<span id="selected-month-text" class="font-semibold text-lg">All Months</span>
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+						<path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+					</svg>
+				</div>
 
-            <div>
+				<ul id="month-dropdown-content"
+					class="absolute mt-2 w-48 bg-white rounded-lg shadow-xl py-1 hidden overflow-y-auto max-h-60 z-30 border border-gray-200">
+					<li class="month-link px-4 py-2 hover:bg-purple-100 cursor-pointer text-gray-700" data-month="all">All Months</li>
+				</ul>
+			</div>
+
+            <div class="p-4">
                 <div class="dropdown-filter" aria-expanded="false" aria-controls="dropdown-content">
                     <button class="dropbtn rounded-full h-auto rounded-full">
                         Filter ▼
@@ -159,6 +168,7 @@
 <script src="./js/storage.js" defer></script>
 <script src="./js/event.js" defer></script>
 <script src="./js/dropdown-filter.js"></script>
+<script src="./js/month-filter.js" defer></script> 
 <script src="./js/chart.js" defer></script>
 
 </html>

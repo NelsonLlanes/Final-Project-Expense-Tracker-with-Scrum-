@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // array of items
         const itemsArray = Array.from(transactionItems);
         // for letting user know what filter is selected
-        let selectedFilter = document.querySelector("#selected-filter");
+        let selectedFilter = document.querySelector(".dropbtn");
 
         // loop for accessing the items
         itemsArray.forEach(item => {
@@ -25,13 +25,13 @@ document.addEventListener('DOMContentLoaded', () => {
             // logic to hide or show
             if (categoryToMatch === 'all') {
                 item.style.display = '';
-                selectedFilter.innerHTML="";
+                selectedFilter.innerHTML="Filter ▼";
             } else if (itemCategoryClass !== categoryToMatch) {
                 // make the non selected item display none
                 item.style.display = 'none';
                 // making user see what filter is selected
                 selectedFilter.innerHTML="";
-                selectedFilter.append(`Filtering: ${categoryToMatch}`);
+                selectedFilter.append(`Filtering: ${categoryToMatch}▼`);
             }
         });
 
