@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
             form.reset();
             alert('Expense added successfully!');
             document.getElementById('modal-add-transaction').classList.add('hidden'); // For closing the modal when something is added
+            window.dispatchEvent(new Event('expenseAddedOrRemoved'));
         } else {
             alert('Failed to add expense. Please try again.');
         }
@@ -38,18 +39,23 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // renderExpenses function
-function renderExpenses() {
+function renderExpenses(expensesToRender = loadExpenses()) {
     const list = document.getElementById('expense-list');
     if (list === null) return;
-    const expenses = loadExpenses();
+
+    // check if delete mode is on; if so, is better to desactivate to avoid issues
+    if (window.isDeleteMode) {
+        window.exitDeleteMode();
+    }
+
     list.innerHTML = ``;
 
-    if (expenses.length === 0) {
+    if (expensesToRender.length === 0) {
         list.innerHTML = '<li style="padding: 10px 0 10px 20px; font-family: Segoe UI">No expenses yet! </li>';
         return;
     }
 
-    expenses.forEach(expense => {
+    expensesToRender.forEach(expense => {
         // creates the li element
         const item = document.createElement("li");
         // add classname for format to the list element
@@ -85,7 +91,7 @@ function renderExpenses() {
         // change date format
         const [y, m, d] = expense.occurredAt.split('-').map(Number);
         const transactionDate = new Date(y, m - 1, d);
-        const formatedDate = transactionDate.toLocaleDateString('en-US',{
+        const formatedDate = transactionDate.toLocaleDateString('en-US', {
             year: 'numeric',
             month: '2-digit',
             day: '2-digit'
@@ -234,6 +240,6 @@ function updateConfirmLabel() {
     deleteConfirmBtn.disabled = n === 0;
 }
 
-
+window.renderExpenses = renderExpenses;
 
 
