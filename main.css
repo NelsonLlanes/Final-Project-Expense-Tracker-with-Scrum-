@@ -296,10 +296,18 @@ input.selector {
 /* Dropdown Filter */
 
 .dropdown-filter {
-    position: relative;
-    display: inline-block;
     z-index: 20;
 }
+
+.header {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 10px;
+}
+
 
 .dropbtn {
     background-color: #d1d5db;
