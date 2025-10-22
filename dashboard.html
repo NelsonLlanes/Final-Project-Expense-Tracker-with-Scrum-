@@ -9,130 +9,104 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="main.css">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>Dashboard</title>
 </head>
 
 <body id="body-dashboard">
-    
-    <button id="btn-open-modal"
-        class="fixed bottom-6 right-6 p-4 bg-purple-600 text-white rounded-full shadow-lg hover:bg-purple-700 focus:ring-2 focus:ring-purple-500 z-10">
-        <p>Add Transaction</p>
-    </button>
 
     <header>
 
-        <div class="header" style="display: flex; flex-wrap: wrap;background-color: #f3f4f6;">
+        <div class="header flex-row" style="border-radius: 10px; display: flex; flex-wrap: wrap;background-color: #f3f4f6;">
 
-            <div class="p-4 ">
-                <div id="toggle-group"
-                    class="inline-flex p- bg-gray-300 rounded-full shadow-inner w-full sm:w-auto cursor-pointer ">
+            <div class="p-0 relative month-selector-container">
+				<div id="month-dropdown-toggle"
+					class="inline-flex items-center justify-around p-1 md:p-2 lg:p-1 bg-white text-purple-600 rounded-full shadow-md cursor-pointer hover:bg-gray-100 transition duration-150 ease-in-out w-auto min-w-[150px]"
+					aria-expanded="false" aria-controls="month-dropdown-content">
+					<span id="selected-month-text" class="flex justify-center">All Months</span>
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+						<path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+					</svg>
+				</div>
 
-                    <button data-target="allTransactions"
-                        class="toggle-button flex-1 px-2 py-2 text-sm font-medium whitespace-nowrap active-button">
-                        All Transactions
+				<ul id="month-dropdown-content"
+					class="absolute mt-2 w-48 bg-white rounded-lg shadow-xl py-1 hidden overflow-y-auto max-h-60 z-30 border border-gray-200">
+					<li class="month-link px-2 py-2 hover:bg-purple-100 cursor-pointer text-gray-700" data-month="all">All Months</li>
+				</ul>
+			</div>
+
+            <div class="">
+                <div class="dropdown-filter" aria-expanded="false" aria-controls="dropdown-content">
+                    <button class="dropbtn p-1 px-2 rounded-full h-auto bg-white text-purple-600 rounded-full shadow-md cursor-pointer hover:bg-gray-100 transition duration-150 ease-in-out min-w-[180px]">
+                        Filter ▼
                     </button>
 
-                    <button data-target="received"
-                        class="toggle-button flex-1 px-2 py-2 text-sm font-medium whitespace-nowrap">
-                        Received
-                    </button>
-
-                    <button data-target="spent"
-                        class="toggle-button flex-1 px-2 py-2 text-sm font-medium whitespace-nowrap">
-                        Spent
-                    </button>
+                    <ul class="dropdown-content">
+                        <li><a class="category-link" href="#all">All Categories</a></li>
+                        <li><a class="category-link" href="#supermarket">Supermarket</a></li>
+                        <li><a class="category-link" href="#restaurant">Food</a></li>
+                        <li><a class="category-link" href="#transport">Transport</a></li>
+                        <li><a class="category-link" href="#transfer">Transfer</a></li>
+                        <li><a class="category-link" href="#other">Other</a></li>
+                    </ul>
                 </div>
             </div>
 
 
-            <div class="p-4 bg-gray-100 delete-menu">
-
+            <div class="bg-gray-100 delete-menu">
                 <button id="delete-toggle" type="button"
-                    class="toggle-button flex-1 px-2 py-2 text-sm font-medium whitespace-nowrap active-button">Delete
-                    transactions
+                    class="toggle-button flex-1 p-1 px-2 whitespace-nowrap active-button bg-white text-purple-600 rounded-full shadow-md cursor-pointer hover:bg-purple-600 hover:text-white transition duration-150 ease-in-out w-auto min-w-[150px]">Delete
                 </button>
-
                 <button id="Edit-toggle" type="button"
-                    class="toggle-button flex-1 px-2 py-2 text-sm font-medium whitespace-nowrap active-button">
+                    class="toggle-button flex-1 p-1 px-2 whitespace-nowrap active-button bg-white text-purple-600 rounded-full shadow-md cursor-pointer hover:bg-purple-600 hover:text-white transition duration-150 ease-in-out w-auto min-w-[150px]">
                     Edit
                 </button>
-
                 <button id="delete-confirm" type="button"
-                    class="toggle-button flex-1 px-2 py-2 text-sm font-medium whitespace-nowrap active-button" hidden
-                    disabled>Delete selected (0)
+                    class="toggle-button flex-1 p-1 px-3 font-medium whitespace-nowrap active-button bg-white text-purple-600 rounded-full shadow-md cursor-pointer hover:bg-purple-600 hover:text-white transition duration-150 ease-in-out w-auto min-w-[150px]" hidden
+                    disabled aria-live="polite">Selected (0)
                 </button>
-
-
             </div>
         </div>
-        </div>
+        <button id="btn-open-modal"
+            class="fixed bottom-6 right-6 p-4 bg-purple-600 text-white rounded-full shadow-lg hover:bg-purple-700 focus:ring-2 focus:ring-purple-500">
+            <p>Add Transaction</p>
+        </button>
     </header>
 
     <main>
+        <div class="chart-tabs-container mx-auto my-8 w-1/2 md:w-1/3 lg:w-1/5">
+            <div class="tabs flex justify-center space-x-4 mb-6">
+                <button class="tab-button active-tab px-4 py-2 text-sm font-medium text-white bg-purple-600 rounded-lg shadow-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500" data-target="pie-chart" aria-selected="true" role="tab" aria-controls="pie-chart-container">
+                    Pie Chart
+                </button>
+                <button class="tab-button px-4 py-2 text-sm font-medium text-purple-600 bg-gray-200 rounded-lg shadow-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500" data-target="line-chart" aria-selected="false" role="tab" aria-controls="line-chart-container">
+                    Line Chart
+                </button>
+            </div>
+            <div class="chart-container">
+                <div id="pie-chart-container" class="chart active-chart">
+                    <canvas id="pie-chart"></canvas>
+                </div>
+                <div id="line-chart-container" class="chart hidden">
+                    <canvas id="line-chart"></canvas>
+                </div>
+            </div>
+        </div>
         <div class="timeline">
 
             <ul id="expense-list">
 
             </ul>
-
-
-            <ul>
-                <!-- There are some examples of how its supposed to work on the end -->
-                <li class="transaction-item transfer">
-                    <div class="content">
-                        <span class="category">E-Transfer</span>
-                        <span class="details">Nelson</span>
-                        <span class="amount received">$500</span>
-                    </div>
-                    <span class="day">Thursday</span>
-                </li>
-
-                <li class="transaction-item supermarket">
-                    <div class="content">
-                        <span class="category">Supermarket</span>
-                        <span class="details">Costco</span>
-                        <span class="amount">$125,34</span>
-                    </div>
-                    <span class="day">Thursday</span>
-                </li>
-
-                <li class="transaction-item transport">
-                    <div class="content">
-                        <span class="category">Transport</span>
-                        <span class="details">Skytrain</span>
-                        <span class="amount">$4</span>
-                    </div>
-                    <span class="day">Wednesday</span>
-                </li>
-
-                <li class="transaction-item transport">
-                    <div class="content">
-                        <span class="category">Transport</span>
-                        <span class="details">Bus</span>
-                        <span class="amount">$3</span>
-                    </div>
-                    <span class="day">Tuesday</span>
-                </li>
-
-                <li class="transaction-item restaurant">
-                    <div class="content">
-                        <span class="category">Food</span>
-                        <span class="details">Cactus Club Cafe</span>
-                        <span class="amount">$28,50</span>
-                    </div>
-                    <span class="day">Tuesday</span>
-                </li>
-
-            </ul>
         </div>
     </main>
     <div id="modal-add-transaction"
-        class="fixed inset-0 bg-gray-600 bg-opacity-75 flex items-center justify-center z-50 hidden">
+        class="fixed inset-0 bg-gray-600 bg-opacity-75 flex items-center justify-center z-50 hidden" aria-label="Add New Transaction">
         <div class="bg-white rounded-xl shadow-2xl w-full max-w-md p-6 m-4 transform transition-all duration-300">
 
             <div class="flex justify-between items-center pb-3 border-b border-gray-200">
-                <h2 class="text-2xl font-semibold text-gray-800">Add New Transaction</h2>
-                <button id="btn-close-modal" class="text-gray-400 hover:text-gray-600 transition-colors">
+                <h2 id="modal-title" class="text-2xl font-semibold text-gray-800">Add New Transaction</h2>
+                <button id="btn-close-modal" class="text-gray-400 hover:text-gray-600 transition-colors" aria-label="Close Modal">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -141,7 +115,7 @@
             </div>
 
             <form id="expense-form" class="space-y-4 pt-4">
-
+                <input type="hidden" id="transaction-id" name="transactionId">
                 <div>
                     <label for="amount" class="block text-sm font-medium text-gray-700">Amount</label>
                     <input type="number" id="amount" name="amount" placeholder="e.g., 45.99"
@@ -163,7 +137,7 @@
                         required>
                         <option value="" disabled selected>Select a Category</option>
                         <option value="supermarket">Supermarket 🛒</option>
-                        <option value="restaurant">Food 🍴</option>
+                        <option value="restaurant">Restaurant 🍴</option>
                         <option value="transport">Transport 🚌</option>
                         <option value="transfer">Transfer 💸</option>
                         <option value="other">Other 🤷‍♂️</option>
@@ -194,5 +168,8 @@
 </body>
 <script src="./js/storage.js" defer></script>
 <script src="./js/event.js" defer></script>
+<script src="./js/dropdown-filter.js"></script>
+<script src="./js/month-filter.js" defer></script> 
+<script src="./js/chart.js" defer></script>
 
 </html>

@@ -5,94 +5,123 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeBtn = document.getElementById('btn-close-modal');
     openBtn.addEventListener('click', () => {
         modal.classList.remove('hidden'); // Remove 'hidden' to show the modal form
+
+        document.getElementById("expense-form").reset(); //reset form when open modal
     });
 
     // Logic for closing the modal
     closeBtn.addEventListener('click', () => {
+        document.getElementById("modal-title").textContent = "Add New Transaction";
         modal.classList.add('hidden'); // Add 'hidden' to hide the modal form
+
     });
 
     const form = document.getElementById('expense-form');
     form.addEventListener('submit', (e) => {
         e.preventDefault();
-
-
         const name = document.getElementById('transaction-name').value;
         const amount = parseFloat(document.getElementById('amount').value);
         const note = document.getElementById('note').value;
         const category = document.getElementById('category').value;
         const occurredAt = document.getElementById('occurred-at').value;
         // EDIT
-        if (editingId) {
-            const ok = updateExpense(editingId, { name, amount, note, category, occurredAt });
+        const transactionId = document.getElementById('transaction-id').value;
+        if (transactionId) {
+            const ok = updateExpense(transactionId, { name, amount, note, category, occurredAt });
             if (ok) {
                 form.reset();
                 alert('Expense updated successfully!');
                 renderExpenses();
                 modal.classList.add('hidden');
-                editingId = null;
                 isEditMode = false;
                 exitEditMode();
+                window.dispatchEvent(new Event('expenseAddedOrRemoved'));
             } else {
                 alert('Failed to update expense. Please try again.');
             }
-            return;
-        }
-
-        // ADD
-        const expense = {
-            id: crypto.randomUUID(),
-            createdAt: new Date().toISOString(),
-            name,
-            amount,
-            note,
-            category,
-            occurredAt,
-        };
-
-        if (addExpense(expense)) {
-            form.reset();
-            alert('Expense added successfully!');
-            renderExpenses();
-            document.getElementById('modal-add-transaction').classList.add('hidden'); // For closing the modal when something is added
         } else {
-            alert('Failed to add expense. Please try again.');
+            // ADD
+            const expense = {
+                id: crypto.randomUUID(),
+                createdAt: new Date().toISOString(),
+                name,
+                amount,
+                note,
+                category,
+                occurredAt,
+            };
+    
+            if (addExpense(expense)) {
+                form.reset();
+                alert('Expense added successfully!');
+                renderExpenses();
+                document.getElementById('modal-add-transaction').classList.add('hidden'); // For closing the modal when something is added
+                window.dispatchEvent(new Event('expenseAddedOrRemoved'));
+            } else {
+                alert('Failed to add expense. Please try again.');
+            }
         }
+
     });
     renderExpenses();
 });
 
-function updateExpense(id, updates) {
-    const expenses = loadExpenses();
-    const idx = expenses.findIndex(e => e.id === id);
-    if (idx === -1) return false;
+function editStorage(event) {
 
-    expenses[idx] = {
-        ...expenses[idx],
-        ...updates,
-        id: expenses[idx].id,
-        createdAt: expenses[idx].createdAt,
-    };
+    // declare modal of new expense formulari
+    const modal = document.getElementById('modal-add-transaction');
+    document.getElementById("modal-title").textContent = "Edit Transaction";
+    //true?
+    if (!isEditMode) return; 
+    //click on the expense
+    const li = (event).target.closest("li");
+    if (!li) return;
+    // save the id of li
+    const id = li.dataset.id || li.id;
+    if (!id) return;
 
-    localStorage.setItem('expenses', JSON.stringify(expenses));
-    return true;
+    // find by a property method 
+    const expense = loadExpenses().find((item) => item.id === id);
+
+    if (!expense) return;
+    //reset form
+    document.getElementById("expense-form").reset();
+
+
+    //assing values to the input
+    document.getElementById("transaction-id").value = expense.id
+    document.getElementById("occurred-at").value = expense.createdAt
+    document.getElementById("transaction-name").value = expense.name
+    document.getElementById("amount").value = expense.amount
+    document.getElementById("note").value = expense.note
+    document.getElementById("category").value = expense.category
+    document.getElementById("occurred-at").value = expense.occurredAt
+
+    // open modal with load informacion
+    modal.classList.remove('hidden');
 }
 
 
 
+
 // renderExpenses function
-function renderExpenses() {
+function renderExpenses(expensesToRender = loadExpenses()) {
     const list = document.getElementById('expense-list');
     if (list === null) return;
-    const expenses = loadExpenses();
+
+    // check if delete mode is on; if so, is better to desactivate to avoid issues
+    if (window.isDeleteMode) {
+        window.exitDeleteMode();
+    }
+
     list.innerHTML = ``;
 
-    if (expenses.length === 0) {
-        list.innerHTML = '<li>No expenses yet</li>';
+    if (expensesToRender.length === 0) {
+        list.innerHTML = '<li style="padding: 10px 0 10px 20px; font-family: Segoe UI">No expenses yet! </li>';
         return;
     }
 
-    expenses.forEach(expense => {
+    expensesToRender.forEach(expense => {
         // creates the li element
         const item = document.createElement("li");
         // add classname for format to the list element
@@ -131,12 +160,20 @@ function renderExpenses() {
 
         // change date format
         const [y, m, d] = expense.occurredAt.split('-').map(Number);
-        const day = new Date(y, m - 1, d).toLocaleDateString('en-US', { weekday: 'long' });
+        const transactionDate = new Date(y, m - 1, d);
+        const formatedDate = transactionDate.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+        })
+        const dayWeek = transactionDate.toLocaleDateString('en-US', { weekday: 'long' });
+        const finalDateText = `${formatedDate} - ${dayWeek}`;
+        // const day = new Date(y, m - 1, d).toLocaleDateString('en-US', { weekday: 'long' });
 
 
         const span4 = document.createElement("span");
         span4.className = "day";
-        span4.textContent = `${day}`;
+        span4.textContent = `${finalDateText}`;
         item.append(span4);
 
 
@@ -239,7 +276,7 @@ function exitDeleteMode() {
     isDeleteMode = false;
     selectedIds.clear();
     updateConfirmLabel();
-    deleteToggleBtn.textContent = 'Delete transactions';
+    deleteToggleBtn.textContent = 'Delete';
     deleteConfirmBtn.hidden = true;
     deleteConfirmBtn.disabled = true;
     EditToggleBtn.hidden = false;
@@ -274,82 +311,47 @@ function toggleSelection(li, selected) {
 //counter of items selects
 function updateConfirmLabel() {
     const n = selectedIds.size;
-    deleteConfirmBtn.textContent = `Delete selected (${n})`;
+    deleteConfirmBtn.textContent = `Selected (${n})`;
     deleteConfirmBtn.disabled = n === 0;
 }
 
+window.renderExpenses = renderExpenses;
 // edit function
 let isEditMode = false;
-let editingId = null;
 
 // toggle edit mode
-EditToggleBtn.addEventListener('click', () => {
+EditToggleBtn.addEventListener('click', (e) => {
     isEditMode = !isEditMode;
-    isEditMode ? enterEditMode() : exitEditMode();
+    isEditMode ? enterEditMode(e) : exitEditMode();
 });
 
 // enter Edit funtion 
-function enterEditMode() {
-
-
+function enterEditMode(event = null) {
     // change the buttons context and disable the confirm button until something is selected
     EditToggleBtn.textContent = 'Cancel Edit';
     EditToggleBtn.hidden = false;
     deleteToggleBtn.hidden = true
     deleteConfirmBtn.hidden = true;
     deleteConfirmBtn.disabled = true;
-
-    // declare modal of new expense formulari
-    const modal = document.getElementById('modal-add-transaction');
-
-    //true?
-    if (isEditMode) {
-        addEventListener("click", (e) => {
-            //click on the expense
-            const li = (e).target.closest("li");
-            if (!li) return;
-
-            if (isEditMode) {
-                // save the id of li
-                const id = li.dataset.id || li.id;
-
-                // find by a property method 
-                const expenses = loadExpenses().find((item) => {
-                    // save id
-                    editingId = id;
-
-                    //reset form
-                    document.getElementById("expense-form").reset();
-
-
-                    //assing values to the input
-                    document.getElementById("occurred-at").value = item.createdAt
-                    document.getElementById("transaction-name").value = item.name
-                    document.getElementById("amount").value = item.amount
-                    document.getElementById("note").value = item.note
-                    document.getElementById("category").value = item.category
-                    document.getElementById("occurred-at").value = item.occurredAt
-
-                    // open modal with load informacion
-                    modal.classList.remove('hidden');
-                });
-                return
-            }
-        })
-    };
+    document.querySelectorAll('.transaction-item').forEach((item) => {
+        item.addEventListener('click', (e) => editStorage(e));
+    });
 }
+
+
 
 
 // exit edit mode
 function exitEditMode() {
+    document.getElementById("expense-form").reset();
     isEditMode = false;
-    editingId = null;
     EditToggleBtn.textContent = 'Edit';
     EditToggleBtn.hidden = false;
     deleteToggleBtn.hidden = false;
     deleteConfirmBtn.hidden = true;
     deleteConfirmBtn.disabled = true;
-
-
+    document.querySelectorAll('.transaction-item').forEach((item) => {
+        item.removeEventListener('click', (e) => editStorage(e));
+    });
 }
 
