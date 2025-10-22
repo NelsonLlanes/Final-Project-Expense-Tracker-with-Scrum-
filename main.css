@@ -353,7 +353,7 @@ input.selector {
 
 .month-selector-container {
     position: relative;
-    margin-right: 10px;
+    /* margin-right: 10px; */
 }
 
 #month-dropdown-toggle {
