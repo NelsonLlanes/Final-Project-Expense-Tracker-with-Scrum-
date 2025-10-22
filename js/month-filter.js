@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
         monthDropdownContent.innerHTML = '<li class="month-link px-4 py-2 hover:bg-purple-100 cursor-pointer text-gray-700" data-month="all">All Months</li>';
 
         // add unique months to the dropdown
-        Array.from(uniqueMonths).sort((a, b) => new Date(a) - new Date(b)).forEach(monthYear => {
+        Array.from(uniqueMonths).sort((a, b) => new Date(b) - new Date(a)).forEach(monthYear => {
             const listItem = document.createElement('li');
             listItem.className = 'month-link px-4 py-2 hover:bg-purple-100 cursor-pointer text-gray-700';
             listItem.dataset.month = monthYear; // store "Month Year" as the filter value

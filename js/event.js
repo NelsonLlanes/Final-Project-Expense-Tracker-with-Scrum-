@@ -311,7 +311,7 @@ function toggleSelection(li, selected) {
 //counter of items selects
 function updateConfirmLabel() {
     const n = selectedIds.size;
-    deleteConfirmBtn.textContent = `Delete selected (${n})`;
+    deleteConfirmBtn.textContent = `Selected (${n})`;
     deleteConfirmBtn.disabled = n === 0;
 }
 

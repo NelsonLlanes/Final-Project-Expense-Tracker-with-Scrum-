@@ -73,17 +73,9 @@
     transition: background-color 0.3s;
 }
 
-#delete-toggle:hover {
-    background-color: #686a6c;
-}
-
 #delete-confirm {
     transition: background-color 0.3s;
     cursor: pointer;
-}
-
-#delete-confirm:hover {
-    background-color: #686a6c;
 }
 
 /* Main Content */
