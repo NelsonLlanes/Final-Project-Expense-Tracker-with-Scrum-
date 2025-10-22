@@ -158,7 +158,7 @@ function renderExpenses(expensesToRender = loadExpenses()) {
         // creates the li element
         const item = document.createElement("li");
         // add classname for format to the list element
-        item.className = `transaction-item transaction-item--${categoryKey}`;
+        item.className = `transaction-item ${categoryKey} transaction-item--${categoryKey}`;
         //add id to the li element
         item.dataset.id = expense.id;
         // add data-category attribute
