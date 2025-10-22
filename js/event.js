@@ -45,20 +45,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const note = document.getElementById('note').value;
         const category = document.getElementById('category').value;
         const occurredAt = document.getElementById('occurred-at').value;
-        const selectedCategory = form.querySelector('input[name="category"]:checked');
-        if (!selectedCategory) {
-            alert('Please select a category.');
-            return;
-        }
-        expense.category = selectedCategory.value;
-        expense.occurredAt = document.getElementById('occurred-at').value;
-
+ 
         // check budget before adding expense
         const totalExpense = expenses
-            .filter(exp => exp.category === expense.category.toLocaleLowerCase())
-            .reduce((sum, exp) => sum + exp.amount, 0) + expense.amount;
-        if (totalExpense > budgetSettings[expense.category]) {
-            const userConfirmed = confirm(`Budget exceeded for ${expense.category}! Do you still want to add this expense?`);
+            .filter(exp => exp.category === category.toLocaleLowerCase())
+            .reduce((sum, exp) => sum + exp.amount, 0) + amount;
+        if (totalExpense > budgetSettings[category]) {
+            const userConfirmed = confirm(`Budget exceeded for ${category}! Do you still want to add this expense?`);
             if (!userConfirmed) {
                 return; // abort adding the expense
             }
@@ -196,12 +189,12 @@ function renderExpenses(expensesToRender = loadExpenses()) {
         span2.className = `details`;
         span2.textContent = expense.note || expense.name;
 
-        const span3 = document.createElement("span");
-        span3.className = `amount`;
-        span3.textContent = ` $ ${expense.amount}`;
+        const priceSpan = document.createElement("span");
+        priceSpan.classList.add('amount', 'self-end');
+        priceSpan.textContent = ` $ ${expense.amount}`;
 
         // add span elements inside the div
-        div.append(span1, span5, span2, span3)
+        div.append(span5, span2)
 
 
         // change date format
@@ -215,12 +208,16 @@ function renderExpenses(expensesToRender = loadExpenses()) {
         const dayWeek = transactionDate.toLocaleDateString('en-US', { weekday: 'long' });
         const finalDateText = `${formatedDate} - ${dayWeek}`;
         // const day = new Date(y, m - 1, d).toLocaleDateString('en-US', { weekday: 'long' });
+        const rightDiv = document.createElement("div");
+        rightDiv.classList.add("flex", "flex-col", "justify-between", "item-end");
 
 
         const span4 = document.createElement("span");
-        span4.className = "day";
+        span4.classList.add("day", "self-end");
+
         span4.textContent = `${finalDateText}`;
-        item.append(iconWrapper, div, span4);
+        rightDiv.append(span4, priceSpan);
+        item.append(iconWrapper, div, rightDiv);
 
         list.prepend(item);
     });
@@ -398,3 +395,22 @@ function exitEditMode() {
     });
 }
 
+
+// budget exceed check and highlight
+const checkBudgetExceed = () => {
+    const budgetSettings = loadBudgetSetting();
+    const expenses = loadExpenses();
+        for (const category in budgetSettings) {
+        let categoryLowerCase = category.toLocaleLowerCase()
+        const totalExpense = expenses
+            .filter(exp => exp.category == categoryLowerCase)
+            .reduce((sum, exp) => sum + exp.amount, 0);
+                    const categoryElement = document.querySelectorAll(`[data-category="${category.toLocaleLowerCase()}"]`);
+        if (!categoryElement) continue;
+        if (totalExpense > budgetSettings[category]) {
+            categoryElement.forEach(el => el.classList.add('bg-red-200', 'bg-opacity-50'));
+        } else {
+            categoryElement.forEach(el => el.classList.remove('bg-red-200', 'bg-opacity-50'));
+        }
+    }
+};
