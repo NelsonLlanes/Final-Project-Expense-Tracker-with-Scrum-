@@ -11,9 +11,9 @@ Use bullets; keep it brief. Repeat for each day of the sprint.
 
 | Team Member | Yesterday | Today | Blockers |
 |-------------|-----------|-------|----------|
-| **Nelson** | -- | -- | -- |
-| **Matheus** | -- | -- | -- |
-| **Shintaro** | -- | -- | -- |
+| **Nelson** | -- | Start build expense edit form (HTML/CSS)  | None |
+| **Matheus** | -- | Start create category filter dropdown (HTML/CSS) | None |
+| **Shintaro** | -- | Start design basic chart UI (HTML/CSS) | None |
 
 ---
 
@@ -21,9 +21,9 @@ Use bullets; keep it brief. Repeat for each day of the sprint.
 
 | Team Member | Yesterday | Today | Blockers |
 |-------------|-----------|-------|----------|
-| **Nelson** | -- | -- | -- |
-| **Matheus** | -- | -- | -- |
-| **Shintaro** | -- | -- | -- |
+| **Nelson** | Start build expense edit form (HTML/CSS) | Build expense edit form (HTML/CSS) | None |
+| **Matheus** | Start create category filter dropdown (HTML/CSS) | Create category filter dropdown (HTML/CSS) | None |
+| **Shintaro** | Start design basic chart UI (HTML/CSS) | Design basic chart UI (HTML/CSS) | None |
 
 ---
 
@@ -31,9 +31,9 @@ Use bullets; keep it brief. Repeat for each day of the sprint.
 
 | Team Member | Yesterday | Today | Blockers |
 |-------------|-----------|-------|----------|
-| **Nelson** | -- | -- | -- |
-| **Matheus** | -- | -- | -- |
-| **Shintaro** | -- | -- | -- |
+| **Nelson** | Build expense edit form (HTML/CSS) | Implement edit functionality (JS) | None |
+| **Matheus** | Create category filter dropdown (HTML/CSS) | Implement filter logic (JS) | None |
+| **Shintaro** | Design basic chart UI (HTML/CSS) | Integrate chart library (JS) | None |
 
 ---
 
@@ -41,9 +41,9 @@ Use bullets; keep it brief. Repeat for each day of the sprint.
 
 | Team Member | Yesterday | Today | Blockers |
 |-------------|-----------|-------|----------|
-| **Nelson** | -- | -- | -- |
-| **Matheus** | -- | -- | -- |
-| **Shintaro** | -- | -- | -- |
+| **Nelson** | Implement edit functionality (JS) | Save edited expense to LocalStorage | None |
+| **Matheus** | Implement filter logic (JS) | Implement filter logic (JS) | None |
+| **Shintaro** | Integrate chart library (JS) | Calculate category totals (JS) | None |
 
 ---
 
@@ -51,23 +51,29 @@ Use bullets; keep it brief. Repeat for each day of the sprint.
 
 | Team Member | Yesterday | Today | Blockers |
 |-------------|-----------|-------|----------|
-| **Nelson** | -- | -- | -- |
-| **Matheus** | -- | -- | -- |
-| **Shintaro** | -- | -- | -- |
+| **Nelson** | Save edited expense to LocalStorage | Save edited expense to LocalStorage | None |
+| **Matheus** | Add monthly view toggle (HTML/JS) | Add monthly view toggle (HTML/JS) | None |
+| **Shintaro** | Calculate category totals (JS) | Check member's pull request | None |
 
 ---
 
 ## 📊 Sprint Progress Summary
 
 ### Completed Tasks
-- [ ] Task 1
-- [ ] Task 2
-- [ ] Task 3
+- [ ] Build expense edit form (HTML/CSS)
+- [ ] Implement edit functionality (JS)
+- [ ] Save edited expense to LocalStorage
+- [ ] Create category filter dropdown (HTML/CSS)
+- [ ] Implement filter logic (JS)
+- [ ] Add monthly view toggle (HTML/JS)
+- [ ] Design basic chart UI (HTML/CSS)
+- [ ] Integrate chart library (JS)
+- [ ] Calculate category totals (JS)
 
 ### Current Focus Areas
-- **Frontend:** HTML/CSS development (Matheus)
-- **Backend:** Local storage implementation (Nelson, Shintaro)
-- **Integration:** List rendering functionality (Nelson)
+- **Frontend:** Drop down filter about categories, edit expense form, Render Chart(Matheus, Nelson, Shintaro)
+- **Backend:** Edit expense, Filtered by categories, ChartJS (Nelson, Matheus,  Shintaro)
+- **Integration:**  Switching form between add and edit(Nelson)
 
 ### Notes
 - All team members started sprint with no blockers
