@@ -19,9 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('expense-form');
     form.addEventListener('submit', (e) => {
         e.preventDefault();
-
-
-
         const name = document.getElementById('transaction-name').value;
         const amount = parseFloat(document.getElementById('amount').value);
         const note = document.getElementById('note').value;
@@ -38,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 modal.classList.add('hidden');
                 isEditMode = false;
                 exitEditMode();
+                window.dispatchEvent(new Event('expenseAddedOrRemoved'));
             } else {
                 alert('Failed to update expense. Please try again.');
             }
@@ -58,6 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert('Expense added successfully!');
                 renderExpenses();
                 document.getElementById('modal-add-transaction').classList.add('hidden'); // For closing the modal when something is added
+                window.dispatchEvent(new Event('expenseAddedOrRemoved'));
             } else {
                 alert('Failed to add expense. Please try again.');
             }
@@ -106,18 +105,23 @@ function editStorage(event) {
 
 
 // renderExpenses function
-function renderExpenses() {
+function renderExpenses(expensesToRender = loadExpenses()) {
     const list = document.getElementById('expense-list');
     if (list === null) return;
-    const expenses = loadExpenses();
+
+    // check if delete mode is on; if so, is better to desactivate to avoid issues
+    if (window.isDeleteMode) {
+        window.exitDeleteMode();
+    }
+
     list.innerHTML = ``;
 
-    if (expenses.length === 0) {
-        list.innerHTML = '<li>No expenses yet</li>';
+    if (expensesToRender.length === 0) {
+        list.innerHTML = '<li style="padding: 10px 0 10px 20px; font-family: Segoe UI">No expenses yet! </li>';
         return;
     }
 
-    expenses.forEach(expense => {
+    expensesToRender.forEach(expense => {
         // creates the li element
         const item = document.createElement("li");
         // add classname for format to the list element
@@ -156,12 +160,20 @@ function renderExpenses() {
 
         // change date format
         const [y, m, d] = expense.occurredAt.split('-').map(Number);
-        const day = new Date(y, m - 1, d).toLocaleDateString('en-US', { weekday: 'long' });
+        const transactionDate = new Date(y, m - 1, d);
+        const formatedDate = transactionDate.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+        })
+        const dayWeek = transactionDate.toLocaleDateString('en-US', { weekday: 'long' });
+        const finalDateText = `${formatedDate} - ${dayWeek}`;
+        // const day = new Date(y, m - 1, d).toLocaleDateString('en-US', { weekday: 'long' });
 
 
         const span4 = document.createElement("span");
         span4.className = "day";
-        span4.textContent = `${day}`;
+        span4.textContent = `${finalDateText}`;
         item.append(span4);
 
 
@@ -264,7 +276,7 @@ function exitDeleteMode() {
     isDeleteMode = false;
     selectedIds.clear();
     updateConfirmLabel();
-    deleteToggleBtn.textContent = 'Delete transactions';
+    deleteToggleBtn.textContent = 'Delete';
     deleteConfirmBtn.hidden = true;
     deleteConfirmBtn.disabled = true;
     EditToggleBtn.hidden = false;
@@ -303,6 +315,7 @@ function updateConfirmLabel() {
     deleteConfirmBtn.disabled = n === 0;
 }
 
+window.renderExpenses = renderExpenses;
 // edit function
 let isEditMode = false;
 
