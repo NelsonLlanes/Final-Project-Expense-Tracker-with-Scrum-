@@ -3,6 +3,7 @@
     margin: 0;
     padding: 0;
     font-family: 'Poppins', sans-serif;
+    font-size: 16px;
 }
 
 :root {
@@ -12,6 +13,7 @@
     --color-text-dark: #333333;
     --color-text-light: #ffffff;
     --color-balance: #4CAF50;
+    --color-description: #666666;
 }
 
 /* Home Page */
@@ -65,6 +67,15 @@
 .delete-menu>* {
     background-color: #d1d5db;
     border-radius: 25px;
+}
+
+#delete-toggle {
+    transition: background-color 0.3s;
+}
+
+#delete-confirm {
+    transition: background-color 0.3s;
+    cursor: pointer;
 }
 
 /* Main Content */
@@ -130,6 +141,12 @@
     padding: 20px;
 }
 
+/* Modal */
+
+#btn-open-modal {
+    z-index: 1000;
+}
+
 /* Timeline */
 .timeline {
     width: 100%;
@@ -150,7 +167,7 @@
 
 /* Vertical Timeline Line */
 .timeline ul::before {
-    content: '';
+    /* content: ''; */
     position: absolute;
     top: 0;
     left: 20px;
@@ -200,11 +217,8 @@
 
 .transaction-item.selected {
     background: #f1f5f9;
-    /* gris claro */
     outline: 2px solid #94a3b8;
-    /* borde opcional */
     border-radius: 8px;
-    transition: background 120ms ease, outline 120ms ease;
 }
 
 input.selector {
@@ -253,8 +267,9 @@ input.selector {
 }
 
 .details {
-    font-size: 1em;
+    font-size: .85em;
     font-weight: 500;
+    color: var(--color-description);
 }
 
 .amount {
@@ -270,9 +285,86 @@ input.selector {
 .day {
     font-size: 0.8em;
     color: #aaa;
-    text-align: right;
-    width: 70px;
     white-space: nowrap;
+}
+
+/* Dropdown Filter */
+
+.dropdown-filter {
+    z-index: 20;
+}
+
+.header {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 10px;
+    flex-direction: column;
+}
+
+
+.dropbtn {
+    background-color: #d1d5db;
+    color: black;
+    font-size: 16px;
+    border-radius: 9999px;
+    transition: background-color 0.3s;
+}
+
+.dropbtn:hover {
+    background-color: #686a6c;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 180px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    padding: 5px 0 0 0;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.dropdown-content li a {
+    color: #333;
+    padding: 12px 16px;
+    display: block;
+    font-size: 14px;
+}
+
+.dropdown-content li a:hover {
+    background-color: #ddd;
+}
+
+.dropdown-filter:hover .dropdown-content {
+    display: block;
+}
+
+/* Month filter */
+
+.month-selector-container {
+    position: relative;
+    /* margin-right: 10px; */
+}
+
+#month-dropdown-toggle {
+    transition: background-color 0.2s ease-in-out;
+}
+
+#month-dropdown-toggle:hover {
+    background-color: #f3f4f6;
+}
+
+#month-dropdown-content {
+    z-index: 50;
+}
+
+.month-link {
+    transition: background-color 0.15s ease-in-out;
 }
 
 @media (min-width: 768px) {
@@ -281,7 +373,13 @@ input.selector {
     }
 
     .header {
-        justify-content: space-between;
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 10px;
+        padding: 10px;
+        flex-direction: row;
     }
 }
 
@@ -291,6 +389,13 @@ input.selector {
     }
 
     .header {
-        justify-content: space-between;
+        justify-content: left;
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 10px;
+        padding: 10px;
+        flex-direction: row;
     }
 }
