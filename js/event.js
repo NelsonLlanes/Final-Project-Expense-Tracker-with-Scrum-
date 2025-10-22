@@ -202,7 +202,7 @@ function exitDeleteMode() {
     isDeleteMode = false;
     selectedIds.clear();
     updateConfirmLabel();
-    deleteToggleBtn.textContent = 'Delete transactions';
+    deleteToggleBtn.textContent = 'Delete';
     deleteConfirmBtn.hidden = true;
     deleteConfirmBtn.disabled = true;
 

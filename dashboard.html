@@ -20,11 +20,11 @@
 
         <div class="header" style="border-radius: 10px; display: flex; flex-wrap: wrap;background-color: #f3f4f6;">
 
-            <div class="p-4 relative month-selector-container">
+            <div class="p-0 relative month-selector-container">
 				<div id="month-dropdown-toggle"
-					class="inline-flex items-center justify-between p-2 bg-white text-purple-600 rounded-full shadow-md cursor-pointer hover:bg-gray-100 transition duration-150 ease-in-out w-auto min-w-[150px]"
+					class="inline-flex items-center justify-around p-2 md:p-2 lg:p-1 bg-white text-purple-600 rounded-full shadow-md cursor-pointer hover:bg-gray-100 transition duration-150 ease-in-out w-auto min-w-[150px]"
 					aria-expanded="false" aria-controls="month-dropdown-content">
-					<span id="selected-month-text" class="font-semibold text-lg">All Months</span>
+					<span id="selected-month-text" class="flex justify-center">All Months</span>
 					<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
 						<path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
 					</svg>
@@ -32,17 +32,15 @@
 
 				<ul id="month-dropdown-content"
 					class="absolute mt-2 w-48 bg-white rounded-lg shadow-xl py-1 hidden overflow-y-auto max-h-60 z-30 border border-gray-200">
-					<li class="month-link px-4 py-2 hover:bg-purple-100 cursor-pointer text-gray-700" data-month="all">All Months</li>
+					<li class="month-link px-2 py-2 hover:bg-purple-100 cursor-pointer text-gray-700" data-month="all">All Months</li>
 				</ul>
 			</div>
 
-            <div class="p-4">
+            <div class="">
                 <div class="dropdown-filter" aria-expanded="false" aria-controls="dropdown-content">
-                    <button class="dropbtn rounded-full h-auto rounded-full">
+                    <button class="dropbtn p-1 rounded-full h-auto bg-white text-purple-600 rounded-full shadow-md cursor-pointer hover:bg-gray-100 transition duration-150 ease-in-out min-w-[180px]">
                         Filter ▼
                     </button>
-
-                    <h2 id="selected-filter"></h2>
 
                     <ul class="dropdown-content">
                         <li><a class="category-link" href="#all">All Categories</a></li>
@@ -58,11 +56,10 @@
 
             <div class="p-4 bg-gray-100 delete-menu">
                 <button id="delete-toggle" type="button"
-                    class="toggle-button flex-1 px-2 py-2 text-sm font-medium whitespace-nowrap active-button rounded-full">Delete
-                    transactions
+                    class="toggle-button flex-1 p-1 px-2 whitespace-nowrap active-button bg-white text-purple-600 rounded-full shadow-md cursor-pointer hover:bg-gray-100 transition duration-150 ease-in-out w-auto min-w-[150px]">Delete
                 </button>
                 <button id="delete-confirm" type="button"
-                    class="toggle-button flex-1 px-2 py-2 text-sm font-medium whitespace-nowrap active-button" hidden
+                    class="toggle-button flex-1 p-1 font-medium whitespace-nowrap active-button bg-white text-purple-600 rounded-full shadow-md cursor-pointer hover:bg-gray-100 transition duration-150 ease-in-out w-auto min-w-[150px]" hidden
                     disabled aria-live="polite">Delete selected (0)
                 </button>
             </div>
@@ -74,7 +71,7 @@
     </header>
 
     <main>
-        <div class="chart-tabs-container mx-auto my-8 w-1/2 md:w-1/3">
+        <div class="chart-tabs-container mx-auto my-8 w-1/2 md:w-1/3 lg:w-1/5">
             <div class="tabs flex justify-center space-x-4 mb-6">
                 <button class="tab-button active-tab px-4 py-2 text-sm font-medium text-white bg-purple-600 rounded-lg shadow-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500" data-target="pie-chart" aria-selected="true" role="tab" aria-controls="pie-chart-container">
                     Pie Chart

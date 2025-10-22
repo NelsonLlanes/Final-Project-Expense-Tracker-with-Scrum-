@@ -67,20 +67,20 @@
     border-radius: 25px;
 }
 
-#delete-toggle{
+#delete-toggle {
     transition: background-color 0.3s;
 }
 
-#delete-toggle:hover{
+#delete-toggle:hover {
     background-color: #686a6c;
 }
 
-#delete-confirm{
+#delete-confirm {
     transition: background-color 0.3s;
     cursor: pointer;
 }
 
-#delete-confirm:hover{
+#delete-confirm:hover {
     background-color: #686a6c;
 }
 
@@ -306,15 +306,15 @@ input.selector {
     justify-content: flex-start;
     gap: 10px;
     padding: 10px;
+    flex-direction: column;
 }
 
 
 .dropbtn {
     background-color: #d1d5db;
     color: black;
-    padding: 12px 20px;
     font-size: 16px;
-    border-radius: 4px;
+    border-radius: 9999px;
     transition: background-color 0.3s;
 }
 
@@ -365,7 +365,7 @@ input.selector {
 }
 
 #month-dropdown-content {
-    z-index: 50; 
+    z-index: 50;
 }
 
 .month-link {
@@ -378,7 +378,13 @@ input.selector {
     }
 
     .header {
-        justify-content: space-between;
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 10px;
+        padding: 10px;
+        flex-direction: row;
     }
 }
 
@@ -389,5 +395,12 @@ input.selector {
 
     .header {
         justify-content: left;
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 10px;
+        padding: 10px;
+        flex-direction: row;
     }
 }
