@@ -147,6 +147,28 @@
     z-index: 1000;
 }
 
+/* Modal Animation */
+
+#modal-add-transaction.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+#modal-add-transaction {
+    display: flex;     
+    transition: opacity 0.3s ease-in-out;
+}
+
+#modal-add-transaction > div {
+    transform: scale(0.95);
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+#modal-add-transaction:not(.hidden) > div {
+    opacity: 1;
+    transform: scale(1);
+}
+
 /* Timeline */
 .timeline {
     width: 100%;

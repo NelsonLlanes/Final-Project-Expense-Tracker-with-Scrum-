@@ -141,11 +141,6 @@ function renderExpenses(expensesToRender = loadExpenses()) {
     const list = document.getElementById('expense-list');
     if (list === null) return;
 
-    // check if delete mode is on; if so, is better to desactivate to avoid issues
-    if (window.isDeleteMode) {
-        window.exitDeleteMode();
-    }
-
     list.innerHTML = ``;
 
     if (expensesToRender.length === 0) {

@@ -34,14 +34,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 selectedFilter.append(`Filtering: ${categoryToMatch}▼`);
             }
         });
-
-        // close the dropdown after click
-        if (content) {
-            content.classList.remove('show');
-        }
     }
 
-    // logic for clicking and then applying the function forr filtering
+    // logic for clicking and then applying the function for filtering
     links.forEach(link => {
         link.addEventListener('click', (event) => {
             // preventing from reload page
