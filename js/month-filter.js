@@ -2,21 +2,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const monthDropdownContent = document.getElementById('month-dropdown-content');
     const selectedMonthText = document.getElementById('selected-month-text');
     const monthDropdownToggle = document.getElementById('month-dropdown-toggle');
-    const expenseList = document.getElementById('expense-list');
-
     let pieChartInstance;
     let lineChartInstance;
+
+    const filterState = window.expenseFilterState ?? { month: 'all', category: 'all' };
+    window.expenseFilterState = filterState;
 
     // to convert numbers into real months
     const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-    // function to get the month name and year from an ISO date string
+    // function to get the month name and year from an date string
     const getMonthYear = (dateString) => {
         const date = new Date(dateString);
         return `${monthNames[date.getMonth()]} ${date.getFullYear()}`;
     };
 
-    // function to get existing chart instances from their canvas elements
+    // function to get existing chart instances from their elements
     const getChartInstances = () => {
         const pieCtx = document.getElementById('pie-chart');
         const lineCtx = document.getElementById('line-chart');
@@ -28,6 +29,32 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    const applyExpenseFilters = () => {
+        const allExpenses = loadExpenses();
+        const { month, category } = window.expenseFilterState;
+
+        let filteredExpenses = allExpenses;
+
+        if (month !== 'all') {
+            filteredExpenses = filteredExpenses.filter(expense => getMonthYear(expense.occurredAt) === month);
+        }
+
+        if (category !== 'all') {
+            filteredExpenses = filteredExpenses.filter(expense => expense.category === category);
+        }
+
+        if (window.renderExpenses) {
+            window.renderExpenses(filteredExpenses);
+        }
+
+        getChartInstances();
+        if (typeof window.updateCharts === 'function') {
+            window.updateCharts(filteredExpenses);
+        }
+    };
+
+    window.applyExpenseFilters = applyExpenseFilters;
+
     // dropdown population
     function populateMonthDropdown() {
         const expenses = loadExpenses();
@@ -38,10 +65,8 @@ document.addEventListener('DOMContentLoaded', () => {
             uniqueMonths.add(getMonthYear(expense.occurredAt));
         });
 
-        // clear existing months, keeping "All Months"
-        monthDropdownContent.innerHTML = '<li class="month-link px-4 py-2 hover:bg-purple-100 cursor-pointer text-gray-700" data-month="all">All Months</li>';
-
         // add unique months to the dropdown
+        monthDropdownContent.innerHTML = '<li class="month-link px-4 py-2 hover:bg-purple-100 cursor-pointer text-gray-700" data-month="all">All Months</li>'
         Array.from(uniqueMonths).sort((a, b) => new Date(b) - new Date(a)).forEach(monthYear => {
             const listItem = document.createElement('li');
             listItem.className = 'month-link px-4 py-2 hover:bg-purple-100 cursor-pointer text-gray-700';
@@ -54,40 +79,28 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function filterByMonth(selectedMonth) {
-        getChartInstances(); // get chart instances before filtering
-
-        const allExpenses = loadExpenses();
-        let filteredExpenses = allExpenses;
-
-        if (selectedMonth !== 'all') {
-            filteredExpenses = allExpenses.filter(expense => {
-                return getMonthYear(expense.occurredAt) === selectedMonth;
-            });
-        }
-
-        // update List
-        if (window.renderExpenses) {
-            window.renderExpenses(filteredExpenses);
-        }
-        if (pieChartInstance && lineChartInstance) {
-            updateCharts(filteredExpenses);
-        }
-
-        // update Dropdown text
+        window.expenseFilterState.month = selectedMonth;
         selectedMonthText.textContent = selectedMonth === 'all' ? 'All Months' : selectedMonth;
+        applyExpenseFilters();
     }
 
-    function updateCharts(filteredExpenses) {
+    function updateCharts(filteredExpenses = loadExpenses()) {
+        if (!Array.isArray(filteredExpenses)) {
+            filteredExpenses = loadExpenses();
+        }
+        getChartInstances();
+        if (!pieChartInstance || !lineChartInstance) return;
+
         // logic to group expenses by category for Pie Chart
         const dataByCategory = filteredExpenses.reduce((acc, expense) => {
             acc[expense.category] = (acc[expense.category] || 0) + expense.amount;
             return acc;
         }, {});
 
-        // logic to group expenses by date for Line Chart
-        const dataByDate = filteredExpenses.reduce((acc, expense) => {
-            acc[expense.occurredAt] = (acc[expense.occurredAt] || 0) + expense.amount;
-            return acc;
+        // logic to group expenses by date for Line Chart (same as pie chart)
+        const dataByDate = filteredExpenses.reduce((acumulator, expense) => {
+            acumulator[expense.occurredAt] = (acumulator[expense.occurredAt] || 0) + expense.amount;
+            return acumulator;
         }, {});
         const dates = Object.keys(dataByDate).sort((a, b) => new Date(a) - new Date(b));
 
@@ -101,10 +114,12 @@ document.addEventListener('DOMContentLoaded', () => {
         lineChartInstance.data.datasets[0].data = dates.map(date => dataByDate[date]);
         lineChartInstance.update();
     }
+    window.updateCharts = updateCharts;
 
 
     monthDropdownToggle.addEventListener('click', () => {
         monthDropdownContent.classList.toggle('hidden');
+        // for accessibility
         monthDropdownToggle.setAttribute('aria-expanded', monthDropdownContent.classList.contains('hidden') ? 'false' : 'true');
     });
 
@@ -114,6 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const selectedMonth = event.target.dataset.month;
                 filterByMonth(selectedMonth);
                 monthDropdownContent.classList.add('hidden');
+                // for accessibility too
                 monthDropdownToggle.setAttribute('aria-expanded', 'false');
             });
         });
@@ -121,13 +137,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // initialize dropdown and filter on load
     populateMonthDropdown();
-    filterByMonth('all'); // initial filter to show all months
+    filterByMonth(filterState.month); // initial filter to show all months
 
     // re-populate and filter when a new expense is added (e.g., in event.js, after addExpense)
     window.addEventListener('expenseAddedOrRemoved', () => {
         populateMonthDropdown();
-        // re-apply current filter to show new data for the selected month
-        const currentFilter = selectedMonthText.textContent === 'All Months' ? 'all' : selectedMonthText.textContent;
-        filterByMonth(currentFilter);
+        selectedMonthText.textContent = filterState.month === 'all' ? 'All Months' : filterState.month;
+        applyExpenseFilters();
     });
 });

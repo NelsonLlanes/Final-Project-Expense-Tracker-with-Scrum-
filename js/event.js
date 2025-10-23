@@ -1,4 +1,25 @@
+const CATEGORY_ICON_MAP = {
+    supermarket: 'fa-store',
+    restaurant: 'fa-utensils',
+    transport: 'fa-train-subway',
+    transfer: 'fa-money-bill-transfer',
+    other: 'fa-ellipsis',
+    others: 'fa-ellipsis',
+};
+
+const CATEGORY_LABEL_MAP = {
+    supermarket: 'Supermarket',
+    restaurant: 'Food',
+    transport: 'Transport',
+    transfer: 'Transfer',
+    other: 'Other',
+    others: 'Other',
+};
+
 document.addEventListener('DOMContentLoaded', () => {
+    const budgetSettings = loadBudgetSetting();
+    const expenses = loadExpenses();
+
     // Logic for opening the modal form
     const modal = document.getElementById('modal-add-transaction');
     const openBtn = document.getElementById('btn-open-modal');
@@ -7,13 +28,14 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.classList.remove('hidden'); // Remove 'hidden' to show the modal form
 
         document.getElementById("expense-form").reset(); //reset form when open modal
+        openBtn.classList.add('hidden'); // hide button when modal is open
     });
 
     // Logic for closing the modal
     closeBtn.addEventListener('click', () => {
         document.getElementById("modal-title").textContent = "Add New Transaction";
         modal.classList.add('hidden'); // Add 'hidden' to hide the modal form
-
+        openBtn.classList.remove('hidden'); // show button when modal is closed
     });
 
     const form = document.getElementById('expense-form');
@@ -24,6 +46,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const note = document.getElementById('note').value;
         const category = document.getElementById('category').value;
         const occurredAt = document.getElementById('occurred-at').value;
+ 
+        // check budget before adding expense
+        const totalExpense = expenses
+            .filter(exp => exp.category === category.toLocaleLowerCase())
+            .reduce((sum, exp) => sum + exp.amount, 0) + amount;
+        if (totalExpense > budgetSettings[category]) {
+            const userConfirmed = confirm(`Budget exceeded for ${category}! Do you still want to add this expense?`);
+            if (!userConfirmed) {
+                return; // abort adding the expense
+            }
+        }
         // EDIT
         const transactionId = document.getElementById('transaction-id').value;
         if (transactionId) {
@@ -56,6 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert('Expense added successfully!');
                 renderExpenses();
                 document.getElementById('modal-add-transaction').classList.add('hidden'); // For closing the modal when something is added
+                document.getElementById('btn-open-modal').classList.remove('hidden'); // show button when modal is closed
                 window.dispatchEvent(new Event('expenseAddedOrRemoved'));
             } else {
                 alert('Failed to add expense. Please try again.');
@@ -109,11 +143,6 @@ function renderExpenses(expensesToRender = loadExpenses()) {
     const list = document.getElementById('expense-list');
     if (list === null) return;
 
-    // check if delete mode is on; if so, is better to desactivate to avoid issues
-    if (window.isDeleteMode) {
-        window.exitDeleteMode();
-    }
-
     list.innerHTML = ``;
 
     if (expensesToRender.length === 0) {
@@ -122,25 +151,32 @@ function renderExpenses(expensesToRender = loadExpenses()) {
     }
 
     expensesToRender.forEach(expense => {
+        const categoryKey = (expense.category || 'other').toLowerCase();
         // creates the li element
         const item = document.createElement("li");
         // add classname for format to the list element
-        item.className = `transaction-item ${expense.category}`;
+        item.className = `transaction-item ${categoryKey} transaction-item--${categoryKey}`;
         //add id to the li element
         item.dataset.id = expense.id;
-        // create div 
+        // add data-category attribute
+        item.dataset.category = categoryKey;
+
+        const iconWrapper = document.createElement('span');
+        iconWrapper.className = 'transaction-icon';
+        const iconEl = document.createElement('i');
+        iconEl.className = `fa-solid ${CATEGORY_ICON_MAP[categoryKey] || 'fa-circle-info'}`;
+        iconEl.setAttribute('aria-hidden', 'true');
+        iconWrapper.appendChild(iconEl);
+
         const div = document.createElement("div");
-        // add class to the div
         div.className = `content`;
-        // add the div inside the li
-        item.prepend(div)
 
         // create the span element
         const span1 = document.createElement("span");
         // add class to the span1
         span1.className = `category`;
         // add content to the span elemente
-        span1.textContent = `${expense.category}`;
+        span1.textContent = `${CATEGORY_LABEL_MAP[categoryKey] || expense.category}`;
 
         const span5 = document.createElement("span");
         span5.className = `name`;
@@ -148,14 +184,14 @@ function renderExpenses(expensesToRender = loadExpenses()) {
 
         const span2 = document.createElement("span");
         span2.className = `details`;
-        span2.textContent = `${expense.note}`;
+        span2.textContent = expense.note || expense.name;
 
-        const span3 = document.createElement("span");
-        span3.className = `amount`;
-        span3.textContent = ` $ ${expense.amount}`;
+        const priceSpan = document.createElement("span");
+        priceSpan.classList.add('amount', 'self-end');
+        priceSpan.textContent = ` $ ${expense.amount}`;
 
         // add span elements inside the div
-        div.append(span1, span5, span2, span3)
+        div.append(span5, span2)
 
 
         // change date format
@@ -169,16 +205,23 @@ function renderExpenses(expensesToRender = loadExpenses()) {
         const dayWeek = transactionDate.toLocaleDateString('en-US', { weekday: 'long' });
         const finalDateText = `${formatedDate} - ${dayWeek}`;
         // const day = new Date(y, m - 1, d).toLocaleDateString('en-US', { weekday: 'long' });
+        const rightDiv = document.createElement("div");
+        rightDiv.classList.add("flex", "flex-col", "justify-between", "item-end");
 
 
         const span4 = document.createElement("span");
-        span4.className = "day";
+        span4.classList.add("day", "self-end");
+
         span4.textContent = `${finalDateText}`;
-        item.append(span4);
+        rightDiv.append(span4, priceSpan);
+        item.append(iconWrapper, div, rightDiv);
 
-
-        list.prepend(item)
+        // start hidden and animate in (minimal lines with jQuery)
+        item.style.display = 'none';
+        list.prepend(item);
+        $(item).fadeIn(220);
     });
+    checkBudgetExceed();
 };
 
 // delete mode
@@ -200,42 +243,67 @@ const deleteConfirmBtn = document.getElementById('delete-confirm');
 const EditToggleBtn = document.getElementById('Edit-toggle');
 
 //on and off delete menu
-deleteToggleBtn.addEventListener('click', () => {
-    isDeleteMode = !isDeleteMode;
-    isDeleteMode ? enterDeleteMode() : exitDeleteMode();
-});
+if (deleteToggleBtn) {
+    deleteToggleBtn.addEventListener('click', () => {
+        isDeleteMode = !isDeleteMode;
+        isDeleteMode ? enterDeleteMode() : exitDeleteMode();
+    });
+}
 
 // if items are selected. confirm before erasing.
-deleteConfirmBtn.addEventListener('click', () => {
-    if (selectedIds.size === 0) return;
-    const ok = confirm(`Delete ${selectedIds.size} transaction(s)?`);
-    if (!ok) return;
+if(deleteConfirmBtn){
+    deleteConfirmBtn.addEventListener('click', () => {
+        if (selectedIds.size === 0) return;
+        const ok = confirm(`Delete ${selectedIds.size} transaction(s)?`);
+        if (!ok) return;
+        
+    
+        const ids = Array.from(selectedIds);
+        let remaining = ids.length;
+    
+        ids.forEach(id => {
+            const li = document.querySelector(`li[data-id="${id}"]`);
+            if (li) {
+                // fade out then remove from storage; when all done, refresh list
+                $(li).fadeOut(200, () => {
+                    removeExpense(id);
+                    remaining--;
+                    if (remaining === 0) {
+                        exitDeleteMode();
+                        renderExpenses();
+                        window.dispatchEvent(new Event('expenseAddedOrRemoved'));
+                    }
+                });
+            } else {
+                removeExpense(id);
+                remaining--;
+                if (remaining === 0) {
+                    exitDeleteMode();
+                    renderExpenses();
+                    window.dispatchEvent(new Event('expenseAddedOrRemoved'));
+                }
+            }
+        });
+    });
+}
 
-    // erase after confirmartion
-    for (const id of selectedIds) {
-        removeExpense(id);
-    }
-
-    exitDeleteMode();
-    renderExpenses();
-});
-
-
-listelement.addEventListener('click', (e) => {
-    // looking for the closest li of target
-    const li = e.target.closest('li');
-    // if find nothing. dont do anything
-    if (!li) return;
-    // look for if checkbox is check or not
-    const cb = li.querySelector('input.selector[type="checkbox"]');
-    // if theres no checkbox. do nothing
-    if (!cb) return;
-    // check or not the checkbox
-    cb.checked = !cb.checked;
-    // call function
-    toggleSelection(li, cb.checked);
-    modal.classList.add('hidden'); // Add 'hidden' to hide the modal form
-});
+if(listelement){
+    listelement.addEventListener('click', (e) => {
+        // looking for the closest li of target
+        const li = e.target.closest('li');
+        // if find nothing. dont do anything
+        if (!li) return;
+        // look for if checkbox is check or not
+        const cb = li.querySelector('input.selector[type="checkbox"]');
+        // if theres no checkbox. do nothing
+        if (!cb) return;
+        // check or not the checkbox
+        cb.checked = !cb.checked;
+        // call function
+        toggleSelection(li, cb.checked);
+        modal.classList.add('hidden'); // Add 'hidden' to hide the modal form
+    });
+}
 
 
 // delete function
@@ -292,7 +360,6 @@ function exitDeleteMode() {
     });
 }
 
-
 // add or not the "selected" class
 function toggleSelection(li, selected) {
     const id = li.dataset.id || li.id;
@@ -320,10 +387,12 @@ window.renderExpenses = renderExpenses;
 let isEditMode = false;
 
 // toggle edit mode
-EditToggleBtn.addEventListener('click', (e) => {
-    isEditMode = !isEditMode;
-    isEditMode ? enterEditMode(e) : exitEditMode();
-});
+if(EditToggleBtn){
+    EditToggleBtn.addEventListener('click', (e) => {
+        isEditMode = !isEditMode;
+        isEditMode ? enterEditMode(e) : exitEditMode();
+    });
+}
 
 // enter Edit funtion 
 function enterEditMode(event = null) {
@@ -337,9 +406,6 @@ function enterEditMode(event = null) {
         item.addEventListener('click', (e) => editStorage(e));
     });
 }
-
-
-
 
 // exit edit mode
 function exitEditMode() {
@@ -355,3 +421,63 @@ function exitEditMode() {
     });
 }
 
+
+// budget exceed check and highlight
+const checkBudgetExceed = () => {
+    const budgetSettings = loadBudgetSetting();
+    const expenses = loadExpenses();
+        for (const category in budgetSettings) {
+        let categoryLowerCase = category.toLocaleLowerCase()
+        const totalExpense = expenses
+            .filter(exp => exp.category == categoryLowerCase)
+            .reduce((sum, exp) => sum + exp.amount, 0);
+                    const categoryElement = document.querySelectorAll(`[data-category="${category.toLocaleLowerCase()}"]`);
+        if (!categoryElement) continue;
+        if (totalExpense > budgetSettings[category]) {
+            categoryElement.forEach(el => el.classList.add('bg-red-200', 'bg-opacity-50'));
+        } else {
+            categoryElement.forEach(el => el.classList.remove('bg-red-200', 'bg-opacity-50'));
+        }
+    }
+};
+
+// logic for last transactions appear in index page
+document.addEventListener('DOMContentLoaded', function() {
+    // get the list element
+    const expensesList = document.getElementById('latest-expenses');
+    
+    // get all expenses from storage
+    const expenses = loadExpenses();
+    
+    // if no expenses, show message
+    if (expenses.length === 0) {
+        expensesList.innerHTML = '<li class="text-gray-500">No expenses yet</li>';
+        return;
+    }
+    
+    // sort expenses by date (newest first)
+    expenses.sort(function(a, b) {
+        return new Date(b.createdAt) - new Date(a.createdAt);
+    });
+    
+    // get only first 5 expenses
+    const recentExpenses = expenses.slice(0, 5);
+    
+    // clear loading message
+    expensesList.innerHTML = '';
+    
+    // add each expense to the list
+    recentExpenses.forEach(function(expense) {
+        const li = document.createElement('li');
+        li.className = 'flex justify-between py-1';
+        
+        li.innerHTML = `
+            <span>${expense.name} 
+                <small class="text-white-500">(${expense.category})</small>
+            </span>
+            <span>$${expense.amount}</span>
+        `;
+        
+        expensesList.appendChild(li);
+    });
+});

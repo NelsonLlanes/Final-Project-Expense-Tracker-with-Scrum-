@@ -9,12 +9,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="main.css">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/1321904a85.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>Dashboard</title>
 </head>
 
-<body id="body-dashboard">
+<body id="body-dashboard" class="has-footer-nav">
 
     <header>
 
@@ -69,7 +70,7 @@
             </div>
         </div>
         <button id="btn-open-modal"
-            class="fixed bottom-6 right-6 p-4 bg-purple-600 text-white rounded-full shadow-lg hover:bg-purple-700 focus:ring-2 focus:ring-purple-500">
+            class="fixed right-6 p-4 bg-purple-600 text-white rounded-full shadow-lg hover:bg-purple-700 focus:ring-2 focus:ring-purple-500 floating-action">
             <p>Add Transaction</p>
         </button>
     </header>
@@ -93,7 +94,7 @@
                 </div>
             </div>
         </div>
-        <div class="timeline">
+        <div class="timeline mb-24">
 
             <ul id="expense-list">
 
@@ -129,18 +130,17 @@
                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm p-2 border"
                         required>
                 </div>
-
                 <div>
                     <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
                     <select id="category" name="category"
                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm p-2 border bg-white"
                         required>
                         <option value="" disabled selected>Select a Category</option>
-                        <option value="supermarket">Supermarket 🛒</option>
-                        <option value="restaurant">Restaurant 🍴</option>
-                        <option value="transport">Transport 🚌</option>
-                        <option value="transfer">Transfer 💸</option>
-                        <option value="other">Other 🤷‍♂️</option>
+                        <option value="supermarket">Supermarket</option>
+                        <option value="restaurant">Food</option>
+                        <option value="transport">Transport</option>
+                        <option value="transfer">Transfer</option>
+                        <option value="other">Other</option>
                     </select>
                 </div>
 
@@ -165,8 +165,25 @@
 
         </div>
     </div>
+    <footer class="footer-nav">
+        <nav class="footer-nav__container">
+            <a href="index.html" class="footer-nav__link">
+                <i class="fa-solid fa-house footer-nav__icon" aria-hidden="true"></i>
+                <span>Home</span>
+            </a>
+            <a href="dashboard.html" class="footer-nav__link footer-nav__link--active">
+                <i class="fa-solid fa-chart-line footer-nav__icon" aria-hidden="true"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="setting.html" class="footer-nav__link">
+                <i class="fa-solid fa-gear footer-nav__icon" aria-hidden="true"></i>
+                <span>Setting</span>
+            </a>
+        </nav>
+    </footer>
 </body>
 <script src="./js/storage.js" defer></script>
+<script src="./js/setting.storage.js" defer></script>
 <script src="./js/event.js" defer></script>
 <script src="./js/dropdown-filter.js"></script>
 <script src="./js/month-filter.js" defer></script> 
