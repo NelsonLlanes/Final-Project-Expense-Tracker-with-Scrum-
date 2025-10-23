@@ -2,10 +2,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const monthDropdownContent = document.getElementById('month-dropdown-content');
     const selectedMonthText = document.getElementById('selected-month-text');
     const monthDropdownToggle = document.getElementById('month-dropdown-toggle');
-    const expenseList = document.getElementById('expense-list');
-
     let pieChartInstance;
     let lineChartInstance;
+
+    const filterState = window.expenseFilterState ?? { month: 'all', category: 'all' };
+    window.expenseFilterState = filterState;
 
     // to convert numbers into real months
     const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -27,6 +28,32 @@ document.addEventListener('DOMContentLoaded', () => {
             lineChartInstance = Chart.getChart(lineCtx);
         }
     };
+
+    const applyExpenseFilters = () => {
+        const allExpenses = loadExpenses();
+        const { month, category } = window.expenseFilterState;
+
+        let filteredExpenses = allExpenses;
+
+        if (month !== 'all') {
+            filteredExpenses = filteredExpenses.filter(expense => getMonthYear(expense.occurredAt) === month);
+        }
+
+        if (category !== 'all') {
+            filteredExpenses = filteredExpenses.filter(expense => expense.category === category);
+        }
+
+        if (window.renderExpenses) {
+            window.renderExpenses(filteredExpenses);
+        }
+
+        getChartInstances();
+        if (typeof window.updateCharts === 'function') {
+            window.updateCharts(filteredExpenses);
+        }
+    };
+
+    window.applyExpenseFilters = applyExpenseFilters;
 
     // dropdown population
     function populateMonthDropdown() {
@@ -51,34 +78,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function filterByMonth(selectedMonth) {
-        getChartInstances(); // get chart instances before filtering
-
-        const allExpenses = loadExpenses();
-        let filteredExpenses = allExpenses;
-
-        if (selectedMonth !== 'all') {
-            filteredExpenses = allExpenses.filter(expense => {
-                return getMonthYear(expense.occurredAt) === selectedMonth;
-            });
-        }
-
-        // update List
-        if (window.renderExpenses) {
-            window.renderExpenses(filteredExpenses);
-        }
-        if (pieChartInstance && lineChartInstance) {
-            updateCharts(filteredExpenses);
-        }
-
-        // update Dropdown text (when nothing is shown, then show All Months)
+        window.expenseFilterState.month = selectedMonth;
         selectedMonthText.textContent = selectedMonth === 'all' ? 'All Months' : selectedMonth;
+        applyExpenseFilters();
     }
 
-    function updateCharts(filteredExpenses) {
-        // logic to group expenses by category for Pie Chart (callback function)
-        const dataByCategory = filteredExpenses.reduce((acumulator, expense) => {
-            acumulator[expense.category] = (acumulator[expense.category] || 0) + expense.amount;
-            return acumulator;
+    function updateCharts(filteredExpenses = loadExpenses()) {
+        if (!Array.isArray(filteredExpenses)) {
+            filteredExpenses = loadExpenses();
+        }
+        getChartInstances();
+        if (!pieChartInstance || !lineChartInstance) return;
+
+        // logic to group expenses by category for Pie Chart
+        const dataByCategory = filteredExpenses.reduce((acc, expense) => {
+            acc[expense.category] = (acc[expense.category] || 0) + expense.amount;
+            return acc;
         }, {});
 
         // logic to group expenses by date for Line Chart (same as pie chart)
@@ -98,6 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
         lineChartInstance.data.datasets[0].data = dates.map(date => dataByDate[date]);
         lineChartInstance.update();
     }
+    window.updateCharts = updateCharts;
 
 
     monthDropdownToggle.addEventListener('click', () => {
@@ -120,13 +136,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // initialize dropdown and filter on load
     populateMonthDropdown();
-    filterByMonth('all'); // initial filter to show all months
+    filterByMonth(filterState.month); // initial filter to show all months
 
     // re-populate and filter when a new expense is added (e.g., in event.js, after addExpense)
     window.addEventListener('expenseAddedOrRemoved', () => {
         populateMonthDropdown();
-        // re-apply current filter to show new data for the selected month
-        const currentFilter = selectedMonthText.textContent === 'All Months' ? 'all' : selectedMonthText.textContent;
-        filterByMonth(currentFilter);
+        selectedMonthText.textContent = filterState.month === 'all' ? 'All Months' : filterState.month;
+        applyExpenseFilters();
     });
 });
