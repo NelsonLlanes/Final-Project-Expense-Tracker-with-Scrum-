@@ -28,13 +28,14 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.classList.remove('hidden'); // Remove 'hidden' to show the modal form
 
         document.getElementById("expense-form").reset(); //reset form when open modal
+        openBtn.classList.add('hidden'); // hide button when modal is open
     });
 
     // Logic for closing the modal
     closeBtn.addEventListener('click', () => {
         document.getElementById("modal-title").textContent = "Add New Transaction";
         modal.classList.add('hidden'); // Add 'hidden' to hide the modal form
-
+        openBtn.classList.remove('hidden'); // show button when modal is closed
     });
 
     const form = document.getElementById('expense-form');
@@ -88,6 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert('Expense added successfully!');
                 renderExpenses();
                 document.getElementById('modal-add-transaction').classList.add('hidden'); // For closing the modal when something is added
+                document.getElementById('btn-open-modal').classList.remove('hidden'); // show button when modal is closed
                 window.dispatchEvent(new Event('expenseAddedOrRemoved'));
             } else {
                 alert('Failed to add expense. Please try again.');
@@ -214,7 +216,10 @@ function renderExpenses(expensesToRender = loadExpenses()) {
         rightDiv.append(span4, priceSpan);
         item.append(iconWrapper, div, rightDiv);
 
+        // start hidden and animate in (minimal lines with jQuery)
+        item.style.display = 'none';
         list.prepend(item);
+        $(item).fadeIn(220);
     });
     checkBudgetExceed();
 };
@@ -238,42 +243,67 @@ const deleteConfirmBtn = document.getElementById('delete-confirm');
 const EditToggleBtn = document.getElementById('Edit-toggle');
 
 //on and off delete menu
-deleteToggleBtn.addEventListener('click', () => {
-    isDeleteMode = !isDeleteMode;
-    isDeleteMode ? enterDeleteMode() : exitDeleteMode();
-});
+if (deleteToggleBtn) {
+    deleteToggleBtn.addEventListener('click', () => {
+        isDeleteMode = !isDeleteMode;
+        isDeleteMode ? enterDeleteMode() : exitDeleteMode();
+    });
+}
 
 // if items are selected. confirm before erasing.
-deleteConfirmBtn.addEventListener('click', () => {
-    if (selectedIds.size === 0) return;
-    const ok = confirm(`Delete ${selectedIds.size} transaction(s)?`);
-    if (!ok) return;
+if(deleteConfirmBtn){
+    deleteConfirmBtn.addEventListener('click', () => {
+        if (selectedIds.size === 0) return;
+        const ok = confirm(`Delete ${selectedIds.size} transaction(s)?`);
+        if (!ok) return;
+        
+    
+        const ids = Array.from(selectedIds);
+        let remaining = ids.length;
+    
+        ids.forEach(id => {
+            const li = document.querySelector(`li[data-id="${id}"]`);
+            if (li) {
+                // fade out then remove from storage; when all done, refresh list
+                $(li).fadeOut(200, () => {
+                    removeExpense(id);
+                    remaining--;
+                    if (remaining === 0) {
+                        exitDeleteMode();
+                        renderExpenses();
+                        window.dispatchEvent(new Event('expenseAddedOrRemoved'));
+                    }
+                });
+            } else {
+                removeExpense(id);
+                remaining--;
+                if (remaining === 0) {
+                    exitDeleteMode();
+                    renderExpenses();
+                    window.dispatchEvent(new Event('expenseAddedOrRemoved'));
+                }
+            }
+        });
+    });
+}
 
-    // erase after confirmartion
-    for (const id of selectedIds) {
-        removeExpense(id);
-    }
-
-    exitDeleteMode();
-    renderExpenses();
-});
-
-
-listelement.addEventListener('click', (e) => {
-    // looking for the closest li of target
-    const li = e.target.closest('li');
-    // if find nothing. dont do anything
-    if (!li) return;
-    // look for if checkbox is check or not
-    const cb = li.querySelector('input.selector[type="checkbox"]');
-    // if theres no checkbox. do nothing
-    if (!cb) return;
-    // check or not the checkbox
-    cb.checked = !cb.checked;
-    // call function
-    toggleSelection(li, cb.checked);
-    modal.classList.add('hidden'); // Add 'hidden' to hide the modal form
-});
+if(listelement){
+    listelement.addEventListener('click', (e) => {
+        // looking for the closest li of target
+        const li = e.target.closest('li');
+        // if find nothing. dont do anything
+        if (!li) return;
+        // look for if checkbox is check or not
+        const cb = li.querySelector('input.selector[type="checkbox"]');
+        // if theres no checkbox. do nothing
+        if (!cb) return;
+        // check or not the checkbox
+        cb.checked = !cb.checked;
+        // call function
+        toggleSelection(li, cb.checked);
+        modal.classList.add('hidden'); // Add 'hidden' to hide the modal form
+    });
+}
 
 
 // delete function
@@ -330,7 +360,6 @@ function exitDeleteMode() {
     });
 }
 
-
 // add or not the "selected" class
 function toggleSelection(li, selected) {
     const id = li.dataset.id || li.id;
@@ -358,10 +387,12 @@ window.renderExpenses = renderExpenses;
 let isEditMode = false;
 
 // toggle edit mode
-EditToggleBtn.addEventListener('click', (e) => {
-    isEditMode = !isEditMode;
-    isEditMode ? enterEditMode(e) : exitEditMode();
-});
+if(EditToggleBtn){
+    EditToggleBtn.addEventListener('click', (e) => {
+        isEditMode = !isEditMode;
+        isEditMode ? enterEditMode(e) : exitEditMode();
+    });
+}
 
 // enter Edit funtion 
 function enterEditMode(event = null) {
@@ -409,3 +440,44 @@ const checkBudgetExceed = () => {
         }
     }
 };
+
+// logic for last transactions appear in index page
+document.addEventListener('DOMContentLoaded', function() {
+    // get the list element
+    const expensesList = document.getElementById('latest-expenses');
+    
+    // get all expenses from storage
+    const expenses = loadExpenses();
+    
+    // if no expenses, show message
+    if (expenses.length === 0) {
+        expensesList.innerHTML = '<li class="text-gray-500">No expenses yet</li>';
+        return;
+    }
+    
+    // sort expenses by date (newest first)
+    expenses.sort(function(a, b) {
+        return new Date(b.createdAt) - new Date(a.createdAt);
+    });
+    
+    // get only first 5 expenses
+    const recentExpenses = expenses.slice(0, 5);
+    
+    // clear loading message
+    expensesList.innerHTML = '';
+    
+    // add each expense to the list
+    recentExpenses.forEach(function(expense) {
+        const li = document.createElement('li');
+        li.className = 'flex justify-between py-1';
+        
+        li.innerHTML = `
+            <span>${expense.name} 
+                <small class="text-white-500">(${expense.category})</small>
+            </span>
+            <span>$${expense.amount}</span>
+        `;
+        
+        expensesList.appendChild(li);
+    });
+});
