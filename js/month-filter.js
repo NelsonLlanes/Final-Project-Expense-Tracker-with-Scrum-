@@ -66,6 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // add unique months to the dropdown
+        monthDropdownContent.innerHTML = '<li class="month-link px-4 py-2 hover:bg-purple-100 cursor-pointer text-gray-700" data-month="all">All Months</li>'
         Array.from(uniqueMonths).sort((a, b) => new Date(b) - new Date(a)).forEach(monthYear => {
             const listItem = document.createElement('li');
             listItem.className = 'month-link px-4 py-2 hover:bg-purple-100 cursor-pointer text-gray-700';
