@@ -11,9 +11,9 @@ Use bullets; keep it brief. Repeat for each day of the sprint.
 
 | Team Member | Yesterday | Today | Blockers |
 |-------------|-----------|-------|----------|
-| **Nelson** | -- | -- | -- |
-| **Matheus** | -- | -- | -- |
-| **Shintaro** | -- | -- | -- |
+| **Nelson** | -- | Handle edge cases in expense management | None |
+| **Matheus** | -- | Polish UX and improve accessibility | None |
+| **Shintaro** | -- | Implement budget setting UI (HTML/CSS)  | None |
 
 ---
 
@@ -21,9 +21,9 @@ Use bullets; keep it brief. Repeat for each day of the sprint.
 
 | Team Member | Yesterday | Today | Blockers |
 |-------------|-----------|-------|----------|
-| **Nelson** | -- | -- | -- |
-| **Matheus** | -- | -- | -- |
-| **Shintaro** | -- | -- | -- |
+| **Nelson** | Handle edge cases in expense management | Handle edge cases in expense management | None |
+| **Matheus** | Polish UX and improve accessibility | Polish UX and improve accessibility | None |
+| **Shintaro** | Implement budget setting UI (HTML/CSS) | Implement budget setting UI (HTML/CSS) | None |
 
 ---
 
@@ -31,9 +31,9 @@ Use bullets; keep it brief. Repeat for each day of the sprint.
 
 | Team Member | Yesterday | Today | Blockers |
 |-------------|-----------|-------|----------|
-| **Nelson** | -- | -- | -- |
-| **Matheus** | -- | -- | -- |
-| **Shintaro** | -- | -- | -- |
+| **Nelson** | handle edge cases in expense management | Deploy application | None |
+| **Matheus** | Polish UX and improve accessibility | Polish UX and improve accessibility | None |
+| **Shintaro** | Implement budget setting UI (HTML/CSS) | Add budget logic and alert triggers (JS) | None |
 
 ---
 
@@ -41,9 +41,9 @@ Use bullets; keep it brief. Repeat for each day of the sprint.
 
 | Team Member | Yesterday | Today | Blockers |
 |-------------|-----------|-------|----------|
-| **Nelson** | -- | -- | -- |
-| **Matheus** | -- | -- | -- |
-| **Shintaro** | -- | -- | -- |
+| **Nelson** |  Deploy application | Deploy application | None |
+| **Matheus** | Polish UX and improve accessibility | Polish UX and improve accessibility | None |
+| **Shintaro** | Add budget logic and alert triggers (JS) | Add budget logic and alert triggers (JS) | None |
 
 ---
 
@@ -51,18 +51,22 @@ Use bullets; keep it brief. Repeat for each day of the sprint.
 
 | Team Member | Yesterday | Today | Blockers |
 |-------------|-----------|-------|----------|
-| **Nelson** | -- | -- | -- |
-| **Matheus** | -- | -- | -- |
-| **Shintaro** | -- | -- | -- |
+| **Nelson** | Deploy application | Deploy application | -- |
+| **Matheus** | Polish UX and improve accessibility | Conduct final testing | -- |
+| **Shintaro** | Add budget logic and alert triggers (JS) | Update README documentation | -- |
 
 ---
 
 ## 📊 Sprint Progress Summary
 
 ### Completed Tasks
-- [ ] Task 1
-- [ ] Task 2
-- [ ] Task 3
+- [ ] Implement budget setting UI (HTML/CSS)
+- [ ] Add budget logic and alert triggers (JS)
+- [ ] Polish UX and improve accessibility
+- [ ] Handle edge cases in expense management
+- [ ] Conduct final testing
+- [ ] Update README documentation
+- [ ] Deploy application (optional)
 
 ### Current Focus Areas
 - **Frontend:** HTML/CSS development (Matheus)

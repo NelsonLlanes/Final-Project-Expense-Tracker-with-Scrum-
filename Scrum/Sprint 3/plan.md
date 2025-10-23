@@ -4,8 +4,8 @@
 **Sprint Goal:** Budgets & Polish
 
 ## Sprint Dates
-Start: 2025‑10-20
-End: 2025‑10‑23
+Start: 2025‑10-16
+End: 2025‑10‑22
 
 ## Roles (Rotate each sprint)
 - Product Owner: Nelson 
@@ -28,7 +28,7 @@ End: 2025‑10‑23
 | 1 | Add budget logic and alert triggers (JS) | Shintaro | 3 days | Not-Started |
 | 2 | Polish UX and improve accessibility | Matheus | 4 days | Not-Started |
 | 2 | Handle edge cases in expense management | Nelson | 4 days | Not-Started |
-| 3 | Conduct final testing | Nelson | 3 days | Not-Started |
+| 3 | Conduct final testing | Matheus | 3 days | Not-Started |
 | 3 | Update README documentation | Shintaro | 2 days | Not-Started |
 | 3 | Deploy application (optional) | Nelson | 2 days | Not-Started |
 

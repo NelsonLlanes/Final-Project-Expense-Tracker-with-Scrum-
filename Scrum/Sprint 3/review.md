@@ -2,16 +2,14 @@
 
 ## Done vs Sprint Goal
 - Goal: Budgets & Polish
-- Completed stories: ___
-- Partially completed: ___
+- Completed stories: yes
+- Partially completed: 1,2,3,4,5,6,7
 
 ## Demo Notes
-- Show: add expense, list rendering, delete
-- Stakeholder questions/feedback:
-  - ___
+- Show: Budgets setting, alert budgets, Error handling, Polish UI
 
 ## Product Backlog Updates
 - New items:
-  - ___
+  - ????
 - Reprioritized items:
-  - ___
+  - ????
