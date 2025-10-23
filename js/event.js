@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 category,
                 occurredAt,
             };
-    
+
             if (addExpense(expense)) {
                 form.reset();
                 alert('Expense added successfully!');
@@ -72,18 +72,26 @@ function editStorage(event) {
     const modal = document.getElementById('modal-add-transaction');
     document.getElementById("modal-title").textContent = "Edit Transaction";
     //true?
-    if (!isEditMode) return; 
+    if (!isEditMode) return;
+
     //click on the expense
     const li = (event).target.closest("li");
     if (!li) return;
+
+
     // save the id of li
     const id = li.dataset.id || li.id;
-    if (!id) return;
-
+    if (!id) {
+        alert("error selecting Expense")
+        return;
+    };
     // find by a property method 
     const expense = loadExpenses().find((item) => item.id === id);
 
-    if (!expense) return;
+    if (!expense) {
+        alert("error selecting Expense")
+        return;
+    };
     //reset form
     document.getElementById("expense-form").reset();
 
@@ -107,6 +115,7 @@ function editStorage(event) {
 // renderExpenses function
 function renderExpenses(expensesToRender = loadExpenses()) {
     const list = document.getElementById('expense-list');
+
     if (list === null) return;
 
     // check if delete mode is on; if so, is better to desactivate to avoid issues
@@ -221,11 +230,13 @@ deleteConfirmBtn.addEventListener('click', () => {
 });
 
 
+//select Expenses
 listelement.addEventListener('click', (e) => {
     // looking for the closest li of target
     const li = e.target.closest('li');
     // if find nothing. dont do anything
     if (!li) return;
+
     // look for if checkbox is check or not
     const cb = li.querySelector('input.selector[type="checkbox"]');
     // if theres no checkbox. do nothing
@@ -234,7 +245,6 @@ listelement.addEventListener('click', (e) => {
     cb.checked = !cb.checked;
     // call function
     toggleSelection(li, cb.checked);
-    modal.classList.add('hidden'); // Add 'hidden' to hide the modal form
 });
 
 
@@ -253,7 +263,6 @@ function enterDeleteMode() {
     EditToggleBtn.hidden = true;
 
     // change visual of the item selected
-    listelement.classList.add('delete-mode');
 
     const items = listelement.querySelectorAll('li');
 
@@ -281,7 +290,6 @@ function exitDeleteMode() {
     deleteConfirmBtn.disabled = true;
     EditToggleBtn.hidden = false;
 
-    listelement.classList.remove('delete-mode');
 
     listelement.querySelectorAll('input.selector[type="checkbox"]').forEach((cb) => {
         cb.remove();

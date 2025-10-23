@@ -62,13 +62,12 @@ const updateExpense = (id, updates) => {
     const expenses = loadExpenses();
     const idx = expenses.findIndex(e => e.id === id);
     if (idx === -1) return false;
-
     expenses[idx] = {
         ...expenses[idx],
         ...updates,
         id: expenses[idx].id,
         createdAt: expenses[idx].createdAt,
-    };
+    } 
 
     localStorage.setItem('expenses', JSON.stringify(expenses));
     return true;
