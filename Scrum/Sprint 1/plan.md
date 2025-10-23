@@ -22,12 +22,12 @@ End: 2025‑10‑05
 ## Task Breakdown
 | Story ID | Task Name | Task  Owner | Estimate | Status |
 |---|---|---|---|---|
-| 1 | Build expense form (HTML/CSS)             | Matheus   | 4 days | in-progress |  
-| 1 | Hook form submit → JS handler             | shintaroo | 4 days | in-progress |
-| 1 | Save expense to LocalStorage              | Shintaroo | 4 days | in-progress |
-| 3 | Render list from LocalStorage             | Nelson    | 4 days | in-progress |
-| 2 | Implement delete action (UI + JS)         | Nelson    | 4 days | to-do   |
-| 3 | Basic responsive styling (mobile first)   | Matheus   | 4 days | To‑Do |
+| 1 | Build expense form (HTML/CSS)             | Matheus   | 4 days | Done |  
+| 1 | Hook form submit → JS handler             | shintaroo | 4 days | Done |
+| 1 | Save expense to LocalStorage              | Shintaroo | 4 days | Done |
+| 3 | Render list from LocalStorage             | Nelson    | 4 days | Done |
+| 2 | Implement delete action (UI + JS)         | Nelson    | 4 days | Done |
+| 3 | Basic responsive styling (mobile first)   | Matheus   | 4 days | Done |
 
 ## Risks / Assumptions
 - Risk: Inconsistent LocalStorage schema → **Mitigation:** define a single `expenses` array shape up front.

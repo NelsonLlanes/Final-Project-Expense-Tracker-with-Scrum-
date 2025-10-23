@@ -60,9 +60,16 @@ Use bullets; keep it brief. Repeat for each day of the sprint.
 ## 📊 Sprint Progress Summary
 
 ### Completed Tasks
-- [ ] Task 1
-- [ ] Task 2
-- [ ] Task 3
+- Build expense edit form (HTML/CSS)
+- Implement edit functionality (JS)
+- Save edited expense to LocalStorage
+- Create category filter dropdown (HTML/CSS)
+- Implement filter logic (JS)
+- Add monthly view toggle (HTML/JS)
+- Design basic chart UI (HTML/CSS)
+- Integrate chart library (JS)
+- Calculate category totals (JS)
+
 
 ### Current Focus Areas
 - **Frontend:** HTML/CSS development (Matheus)
